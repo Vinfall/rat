@@ -6,6 +6,7 @@ from urllib.parse import quote as urlquote, urlparse, urlunparse
 from twisted.web.http import _QUEUED_SENTINEL, HTTPChannel, HTTPClient, Request
 from twisted.web.resource import Resource
 from twisted.web import proxy, server
+from twisted.web.static import File
 from twisted.internet.protocol import ClientFactory
 from twisted.internet import reactor, utils
 
@@ -139,18 +140,25 @@ class ReverseProxyResource(Resource):
 def twisted_start():
     flask_res = proxy.ReverseProxyResource('127.0.0.1', 5000, b'')
     flask_res.putChild(b'proxy', ReverseProxyResource(b'/proxy'))
+    flask_res.putChild(b'static', File('static'))
 
+    flask_port = int(app.config['SERVER_NAME'].split(':')[1])
+    
     site = server.Site(flask_res)
-    reactor.listenTCP(5001, site)
+    reactor.listenTCP(flask_port-1, site)
     reactor.run()
 
 # To start this function for testing: python -c 'import main; main.flask_start()'
 def flask_start():
-    app.run(port=5000+1)
+    app.run()
 
 # If we're executed directly, also start the flask daemon.
 if __name__ == '__main__':
+    flask_port = int(app.config['SERVER_NAME'].split(':')[1])
+    print(f' *** SERVER IS RUNNING ON PORT {flask_port-1} ***')
+    
+    twisted_start()
+    
     flask_task = multiprocessing.Process(target=flask_start)
     flask_task.daemon = True # Exit the child if the parent was killed :-(
     flask_task.start()
-    twisted_start()

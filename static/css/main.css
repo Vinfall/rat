@@ -1,12 +1,17 @@
+.emoticons {
+    max-width: 5% !important;
+}
+
+/* global styling */
 :root {
 	--bg-color: #eeeecc;
 	--fg-color: #ffffdd;
 	--replies-color: #f0f0d0;
 	--text-color: #663333;
+	--border-color: #66333388;
 	--primary-color: #0066cc;
 	--important-color: #ff0000;
 }
-
 
 @media (prefers-color-scheme: dark) {
 	:root {
@@ -14,6 +19,7 @@
 		--fg-color: #202044;
 		--replies-color: #16163a;
 		--text-color: #cccccc;
+		--border-color: #cccccc44;
 		--primary-color: #6699ff;
 		--important-color: #ff0000;
 	}
@@ -25,6 +31,15 @@ body {
 	background-color: var(--bg-color);
 	color: var(--text-color);
 	font-family: sans-serif;
+}
+
+footer {
+	display: flex;
+	gap: 2rem;
+	padding: 1rem;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
 }
 
 a[href] {
@@ -40,7 +55,24 @@ img {
 	max-width: 100%;
 }
 
-.bar-nav, .thread-nav {
+.paginator {
+	padding: 1rem;
+	gap: .3rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.paginator a {
+	flex: 0 0 auto;
+	height: 1rem;
+	line-height: 1rem;
+	padding: .5rem;
+	text-align: center;
+	background-color: var(--replies-color);
+}
+
+header {
 	background-color: var(--fg-color);
 	display: flex;
 	flex-wrap: wrap;
@@ -50,38 +82,29 @@ img {
 	align-items: center;
 }
 
-.thread-nav > .title {
-	font-size: 1.2rem;
-	flex: 1 0 70%;
-}
-
-.thread-nav > .from {
-	font-size: 1.2rem;
-}
-
-.bar-nav > img {
-	width: 5rem;
-	height: 5rem;
-}
-
-.bar-nav .title {
-	font-size: 1.5rem;
-}
-
-.bar-nav .stats small {
-	margin-right: .5rem;
-}
-
 .list {
 	background-color: var(--fg-color);
 	margin-bottom: 1rem;
 }
 
+/* thread.html: nav bar */
+
+.thread-nav .title {
+	font-size: 1.2rem;
+	flex: 1 0 70%;
+}
+
+.thread-nav .from {
+	font-size: 1.2rem;
+}
+
+/* thread.html: user post */
+
 .post {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0 1rem;
-	border-bottom: 1px solid var(--text-color);
+	border-bottom: 1px solid var(--border-color);
 	padding: 1rem;
 }
 
@@ -120,6 +143,39 @@ img {
 	float: right;
 }
 
+/* thread.html: replies to a user post */
+
+.post .replies {
+	background-color: var(--replies-color);
+	margin-top: 1rem;
+}
+
+.post .replies .post {
+	border-bottom: none;
+}
+
+.post .replies .post .avatar {
+	width: 3rem;
+	height: 3rem;
+}
+
+/* bar.html: nav bar */
+
+.bar-nav img {
+	width: 5rem;
+	height: 5rem;
+}
+
+.bar-nav .title {
+	font-size: 1.5rem;
+}
+
+.bar-nav .stats small {
+	margin-right: .5rem;
+}
+
+/* bar.html: thread list */
+
 .thread {
 	display: flex;
 	gap: 1rem;
@@ -154,13 +210,4 @@ img {
 .thread .participants a {
 	padding-left: .3rem;
 	color: var(--text-color);
-}
-
-footer {
-	display: flex;
-	gap: 2rem;
-	padding: 1rem;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
 }

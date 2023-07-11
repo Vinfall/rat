@@ -44,6 +44,32 @@
     </div>
   </div>
   {% endfor %}
+
+  <div class="paginator">
+    {% if threads.page.current_page > 1 %}
+    <a href="/f?kw={{ info['name'] }}">首页</a>
+    {% endif %}
+
+    {% for i in range(5) %}
+    {% set np = threads.page.current_page - 5 + i %}
+    {% if np > 0 %}
+    <a href="/f?kw={{ info['name'] }}&pn={{ np }}">{{ np }}</a>
+    {% endif %}
+    {% endfor %}
+
+    <a>{{ threads.page.current_page }}</a>
+    
+    {% for i in range(5) %}
+    {% set np = threads.page.current_page + 1 + i %}
+    {% if np <= threads.page.total_page %}
+    <a href="/f?kw={{ info['name'] }}&pn={{ np }}">{{ np }}</a>
+    {% endif %}
+    {% endfor %}
+
+    {% if threads.page.current_page < threads.page.total_page %}
+    <a href="/f?kw={{ info['name'] }}&pn={{ threads.page.total_page }}">尾页</a>
+    {% endif %}
+  </div>
 </div>
 <footer>
   <div><a href="#">RAT Ain't Tieba</a></div>

@@ -4,7 +4,14 @@ import requests
 import bs4
 import re
 
-async def find_tieba_info(tname):
+from shared import *
+
+def extract_image_name(url):
+    match = re.search(r'/(\w+)\.jpg', url)
+    return match.group(1) + '.jpg'
+
+@cache.cached(timeout=60, key_prefix='tieba_info')
+def find_tieba_info(tname):
     """Get the tiebat avatar for the forum name.
 
     :param tname: the name of the target forum.
@@ -17,9 +24,7 @@ async def find_tieba_info(tname):
     soup = bs4.BeautifulSoup(res.text, 'html.parser')
 
     elems = soup.select('#forum-card-head')
-    match = re.search(r'/(\w+)\.jpg', elems[0]['src'])
-
-    info['avatar'] = match.group(1) + '.jpg'
+    info['avatar'] = extract_image_name(elems[0]['src'])
 
     footer = soup.select('.th_footer_l')[0]
     stat_elems = footer.findAll('span', {'class': 'red_text'}, recursive=False)

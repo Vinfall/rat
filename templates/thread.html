@@ -26,14 +26,41 @@
 	  {% endif %}
 	</div>
 	<div class="content">
-	  {{ p['text'] }}
+	  {{ p.contents|translate|safe }}
 	</div>
 	<small class="date">{{ p.create_time|date }}</small>
-	<small class="permalink"><a href="#1">{{ p.floor }}</a></small>
+	<small class="permalink"><a href="#{{ p.floor }}">{{ p.floor }}</a></small>
       </div>
     </div>
     {% endfor %}
   </div>
+  
+  <div class="paginator">
+    {% if info.page.current_page > 1 %}
+    <a href="/p/{{ info.thread.tid }}">首页</a>
+    {% endif %}
+
+    {% for i in range(5) %}
+    {% set np = info.page.current_page - 5 + i %}
+    {% if np > 0 %}
+    <a href="/p/{{ info.thread.tid }}?pn={{ np }}">{{ np }}</a>
+    {% endif %}
+    {% endfor %}
+
+    <a>{{ info.page.current_page }}</a>
+    
+    {% for i in range(5) %}
+    {% set np = info.page.current_page + 1 + i %}
+    {% if np <= info.page.total_page %}
+    <a href="/p/{{ info.thread.tid }}?pn={{ np }}">{{ np }}</a>
+    {% endif %}
+    {% endfor %}
+
+    {% if info.page.current_page < info.page.total_page %}
+    <a href="/p/{{ info.thread.tid }}?pn={{ info.page.total_page }}">尾页</a>
+    {% endif %}
+  </div>
+  
   <footer>
     <div><a href="/">RAT Ain't Tieba</a></div>
     <div><a href="#">自豪地以 AGPLv3 释出</a></div>
