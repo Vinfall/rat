@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<head>
+  <title>{{ info.thread.text }} - 自由软件吧 - RAT</title>
+
+  <meta charset="utf-8">
+  <meta name="referrer" content="never">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="/static/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+  <header class="thread-nav">
+    <div class="title">{{ info.thread.title }}</div>
+    <div class="from"><a href="/f?kw={{ info.forum.fname }}">{{ info.forum.fname }}吧</a></div>
+  </header>
+  <div class="list">
+    {% for p in info %}
+    <div class="post" id="{{ p.floor }}">
+      <img class="avatar" src="/proxy/avatar/{{ p.user.portrait }}">
+      <div>
+	<div class="userinfo">
+	  <a href="/home/main?id={{ p.user.user_id }}">{{ p.user.user_name }}</a>
+	  {% if p.is_thread_author %}
+	  <span class="tag tag-blue">楼主</span>
+	  {% endif %}
+	</div>
+	<div class="content">
+	  {{ p['text'] }}
+	</div>
+	<small class="date">{{ p.create_time|date }}</small>
+	<small class="permalink"><a href="#1">{{ p.floor }}</a></small>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <footer>
+    <div><a href="/">RAT Ain't Tieba</a></div>
+    <div><a href="#">自豪地以 AGPLv3 释出</a></div>
+    <div><a href="#">源代码</a></div>
+  </footer>
+</body>

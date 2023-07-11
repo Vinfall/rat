@@ -1,0 +1,166 @@
+:root {
+	--bg-color: #eeeecc;
+	--fg-color: #ffffdd;
+	--replies-color: #f0f0d0;
+	--text-color: #663333;
+	--primary-color: #0066cc;
+	--important-color: #ff0000;
+}
+
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg-color: #000033;
+		--fg-color: #202044;
+		--replies-color: #16163a;
+		--text-color: #cccccc;
+		--primary-color: #6699ff;
+		--important-color: #ff0000;
+	}
+}
+
+body {
+	max-width: 48rem;
+	margin: auto;
+	background-color: var(--bg-color);
+	color: var(--text-color);
+	font-family: sans-serif;
+}
+
+a[href] {
+	color: var(--primary-color);
+	text-decoration: none;
+}
+
+a[href]:hover {
+	text-decoration: underline;
+}
+
+img {
+	max-width: 100%;
+}
+
+.bar-nav, .thread-nav {
+	background-color: var(--fg-color);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 1rem;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	align-items: center;
+}
+
+.thread-nav > .title {
+	font-size: 1.2rem;
+	flex: 1 0 70%;
+}
+
+.thread-nav > .from {
+	font-size: 1.2rem;
+}
+
+.bar-nav > img {
+	width: 5rem;
+	height: 5rem;
+}
+
+.bar-nav .title {
+	font-size: 1.5rem;
+}
+
+.bar-nav .stats small {
+	margin-right: .5rem;
+}
+
+.list {
+	background-color: var(--fg-color);
+	margin-bottom: 1rem;
+}
+
+.post {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 1rem;
+	border-bottom: 1px solid var(--text-color);
+	padding: 1rem;
+}
+
+.post .avatar {
+	width: 4rem;
+	height: 4rem;
+}
+
+.post > div {
+	flex: 1;
+}
+
+.post .userinfo {
+	display: flex;
+	gap: .5rem;
+	align-items: center;
+}
+
+.tag {
+	border-radius: .4rem;
+	font-size: .8rem;
+	padding: .1rem .4rem;
+	margin-right: .2rem;
+	color: white;
+}
+
+.tag-blue {
+	background-color: var(--primary-color);
+}
+
+.tag-red {
+	background-color: var(--important-color);
+}
+
+.post .permalink {
+	float: right;
+}
+
+.thread {
+	display: flex;
+	gap: 1rem;
+	padding: 1rem;
+}
+
+.thread .stats {
+	flex: 0 0 4rem;
+	text-align: center;
+}
+
+.thread .replies {
+	font-size: .8rem;
+	padding: .5rem .2rem;
+	background-color: var(--replies-color);
+}
+
+.thread .summary {
+	flex: 1 1 auto;
+}
+
+.thread .title {
+	font-size: 1.1rem;
+	margin-bottom: .5rem;
+}
+
+.thread .participants {
+	font-size: .8rem;
+	flex: 0 0 6rem;
+}
+
+.thread .participants a {
+	padding-left: .3rem;
+	color: var(--text-color);
+}
+
+footer {
+	display: flex;
+	gap: 2rem;
+	padding: 1rem;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
