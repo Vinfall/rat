@@ -30,6 +30,24 @@
 	</div>
 	<small class="date">{{ p.create_time|date }}</small>
 	<small class="permalink"><a href="#{{ p.floor }}">{{ p.floor }}</a></small>
+	{% if p.comments %}
+	<div class="replies">
+	  {% for comment in p.comments %}
+	  <div class="post">
+	    <img class="avatar" src="/proxy/avatar/{{ comment.user.portrait }}">
+	    <div>
+	      <div class="userinfo">
+		<a href="/home/main?id={{ comment.user.user_id }}">{{ comment.user.user_name }}</a>
+	      </div>
+	      <div class="content">
+		{{ comment.contents|translate(comment.reply_to_id)|safe }}
+	      </div>
+	      <small class="date">{{ comment.create_time|date }}</small>
+	    </div>
+	  </div>
+	  {% endfor %}
+	</div>
+	{% endif %}
       </div>
     </div>
     {% endfor %}

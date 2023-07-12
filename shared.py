@@ -12,7 +12,13 @@ def awaitify(sync_func):
 
 app = Flask(__name__)
 
-app.config['SERVER_NAME'] = ':6666'
+######################################################################
+
+app.config['SERVER_NAME'] = '127.0.0.1:8886'
+
+should_fetch_comments = True
+
+######################################################################
 
 app.config['CACHE_TYPE'] = 'SimpleCache'
 cache = Cache(app)

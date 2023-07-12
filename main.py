@@ -138,11 +138,12 @@ class ReverseProxyResource(Resource):
 
 # To start this function for testing: python -c 'import main; main.twisted_start()'
 def twisted_start():
-    flask_res = proxy.ReverseProxyResource('127.0.0.1', 5000, b'')
+    flask_port = int(app.config['SERVER_NAME'].split(':')[1])
+    flask_res = proxy.ReverseProxyResource('127.0.0.1', flask_port, b'')
     flask_res.putChild(b'proxy', ReverseProxyResource(b'/proxy'))
     flask_res.putChild(b'static', File('static'))
 
-    flask_port = int(app.config['SERVER_NAME'].split(':')[1])
+    print(f' *** SERVER IS RUNNING ON PORT {flask_port-1} ***')
     
     site = server.Site(flask_res)
     reactor.listenTCP(flask_port-1, site)
@@ -154,11 +155,7 @@ def flask_start():
 
 # If we're executed directly, also start the flask daemon.
 if __name__ == '__main__':
-    flask_port = int(app.config['SERVER_NAME'].split(':')[1])
-    print(f' *** SERVER IS RUNNING ON PORT {flask_port-1} ***')
-    
-    twisted_start()
-    
     flask_task = multiprocessing.Process(target=flask_start)
     flask_task.daemon = True # Exit the child if the parent was killed :-(
     flask_task.start()
+    twisted_start()

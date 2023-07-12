@@ -22,6 +22,16 @@
 </div>
 </header>
 <div class="list">
+  <div class="vlist">
+    <div><a {% if sort == 0 %} class="current-sel" {% endif %}
+	    href="/f?kw={{ info['name'] }}&pn={{ threads.page.current_page }}&sort=0">时下热门</a></div>
+    <div><a {% if sort == 1 %} class="current-sel" {% endif %}
+	    href="/f?kw={{ info['name'] }}&pn={{ threads.page.current_page }}&sort=1">最新发布</a></div>
+    <div><a {% if sort == 5 %} class="current-sel" {% endif %}
+	    href="/f?kw={{ info['name'] }}&pn={{ threads.page.current_page }}&sort=5">最新回复</a></div>
+  </div>
+</div>
+<div class="list">
   {% for t in threads %}
   <div class="thread">
     <div class="stats">
@@ -34,9 +44,12 @@
 	%}<span class="tag tag-blue">置顶</span>{%
 	endif %}{% if t.is_good
 	%}<span class="tag tag-red">精</span>{% endif
-	%}<a href="/p/{{ t.tid }}">{{ t.title }} </a>
+	%}<a href="/p/{{ t.tid }}">{{ t.title if t.title else t.text|trim }} </a>
       </div>
+
+      {% if t.title %}
       <div>{{ t.text[(t.title|length):]|trim }}</div>
+      {% endif %}
     </div>
     <div class="participants">
       <div>🧑<a href="">{{ t.user.user_name }}</a></div>
@@ -47,13 +60,13 @@
 
   <div class="paginator">
     {% if threads.page.current_page > 1 %}
-    <a href="/f?kw={{ info['name'] }}">首页</a>
+    <a href="/f?kw={{ info['name'] }}&sort={{ sort }}">首页</a>
     {% endif %}
 
     {% for i in range(5) %}
     {% set np = threads.page.current_page - 5 + i %}
     {% if np > 0 %}
-    <a href="/f?kw={{ info['name'] }}&pn={{ np }}">{{ np }}</a>
+    <a href="/f?kw={{ info['name'] }}&pn={{ np }}&sort={{ sort }}">{{ np }}</a>
     {% endif %}
     {% endfor %}
 
@@ -62,12 +75,12 @@
     {% for i in range(5) %}
     {% set np = threads.page.current_page + 1 + i %}
     {% if np <= threads.page.total_page %}
-    <a href="/f?kw={{ info['name'] }}&pn={{ np }}">{{ np }}</a>
+    <a href="/f?kw={{ info['name'] }}&pn={{ np }}&sort={{ sort }}">{{ np }}</a>
     {% endif %}
     {% endfor %}
 
     {% if threads.page.current_page < threads.page.total_page %}
-    <a href="/f?kw={{ info['name'] }}&pn={{ threads.page.total_page }}">尾页</a>
+    <a href="/f?kw={{ info['name'] }}&pn={{ threads.page.total_page }}&sort={{ sort }}">尾页</a>
     {% endif %}
   </div>
 </div>

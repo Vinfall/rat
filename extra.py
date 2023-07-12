@@ -6,9 +6,13 @@ import re
 
 from shared import *
 
+# TODO: known bug, can't extract from super old editor images.
 def extract_image_name(url):
     match = re.search(r'/(\w+)\.jpg', url)
-    return match.group(1) + '.jpg'
+    try:
+        return match.group(1) + '.jpg'
+    except:
+        return '404.jpg'
 
 @cache.cached(timeout=60, key_prefix='tieba_info')
 def find_tieba_info(tname):

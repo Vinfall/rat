@@ -2,7 +2,6 @@ import asyncio
 import aiotieba
 
 from aioflask import render_template, request, escape
-from flask_caching import Cache
 from urllib.parse import quote_plus
 from datetime import datetime
 
@@ -11,6 +10,21 @@ from aiotieba.api._classdef.contents import *
 
 from shared import *
 from extra import *
+
+######################################################################
+
+# Clean a leading part and append the text.
+def append_with_leading_clean(orig, content):
+    if orig.endswith('<br>'):
+        return orig[:-4] + content
+    else:
+        return orig + content
+
+# Return the corresponding user name for an id.
+async def cache_name_from_id(c, i):
+    if not cache.get(i):
+        r = await c.get_user_info(i, require=aiotieba.enums.ReqUInfo.USER_NAME)
+        cache.set(i, r)
 
 ######################################################################
 
@@ -44,28 +58,44 @@ def _jinja2_filter_trim(text):
 
 # Format fragments to its equiviant HTML.
 @app.template_filter('translate')
-def _jinja2_filter_translate(frags):
+async def _jinja2_filter_translate(frags, reply_id=0):
     htmlfmt = ''
+
+    if reply_id:
+        htmlfmt += f'<a href="/home/main?id={reply_id}">@{ cache.get(reply_id) }</a> '
     
-    for frag in frags:
+    for i in range(len(frags)):
+        frag = frags[i]
         if isinstance(frag, FragText):
             subfrags = frag.text.split('\n')
             for subfrag in subfrags:
-                htmlfmt += '<p>' + str(escape(subfrag)) + '</p>'
+                htmlfmt += str(escape(subfrag)) + '<br>'
         elif isinstance(frag, FragImage_p):
             htmlfmt += \
                 f'<a target="_blank" href="/proxy/pic/{ extract_image_name(frag.origin_src) }">' \
                 f'<img width="{ frag.show_width}" height="{ frag.show_height }" '\
                 f'src="/proxy/pic/{ extract_image_name(frag.src) }"></a>'
         elif isinstance(frag, FragEmoji_p):
-            clear_leading = False
-            if htmlfmt.endswith('</p>'):
-                clear_leading = True
-                htmlfmt = htmlfmt.rstrip('</p>')
-            htmlfmt += f'<img class="emoticons" alt="[{ frag.desc }]" src="/static/emoticons/{ quote_plus(frag.desc) }.png">'
-            if clear_leading:
-                htmlfmt += '</p>'
-            
+            htmlfmt = append_with_leading_clean(htmlfmt,
+                                                f'<img class="emoticons" alt="[{ frag.desc }]"'
+                                                f'src="/static/emoticons/{ quote_plus(frag.desc) }.png">')
+            if i+1 < len(frags) and isinstance(frags[i+1], FragImage_p):
+                htmlfmt += '<br>'
+        elif isinstance(frag, FragLink):
+            markup = '<a '; url = frag.raw_url
+            if frag.is_external:
+                markup += 'style="text-color: #ff0000;" '
+            else:
+                url = frag.raw_url.lstrip('https://tieba.baidu.com')
+            markup += f'href="{ url }">{ frag.title }</a>'
+            htmlfmt = append_with_leading_clean(htmlfmt, markup)
+        elif isinstance(frag, FragAt):
+            htmlfmt = append_with_leading_clean(htmlfmt,
+                                                f'<a href="/home/main?id={ frag.user_id }">{ frag.text }</a>')
+        else:
+            print('Unhandled: ', type(frag))
+            print(frag)
+
     return htmlfmt
 
 ######################################################################
@@ -77,23 +107,39 @@ async def thread_view(tid):
 
     async with aiotieba.Client() as tieba:
         # Default to 15 posts per page, confirm to tieba.baidu.com
-        thread_info = await tieba.get_posts(tid, rn=15, pn=pn)
+        thread_info = await tieba.get_posts(tid, rn=15, pn=pn,
+                                            with_comments=should_fetch_comments)
 
-    for post in thread_info:
-        print(post.comments)
-    
+        available_users = []
+        for floor in thread_info:
+            for comment in floor.comments:
+                available_users.append(comment.author_id)
+                cache.set(comment.author_id, comment.user.user_name)
+        
+        all_users = {}
+        for floor in thread_info:
+            for comment in floor.comments:
+                if not comment.reply_to_id in available_users:
+                    all_users[comment.reply_to_id] = ''
+        all_users.pop(0, None)
+        all_users = list(all_users.keys())
+        
+        await asyncio.gather(*(cache_name_from_id(tieba, i) for i in all_users))
+
+            
     return await render_template('thread.html', info=thread_info)
 
 @app.route('/f')
 async def forum_view():
     fname =  request.args['kw']
     pn = int(request.args.get('pn') or 1)
+    sort = int(request.args.get('sort') or 0)
 
     async with aiotieba.Client() as tieba:
         forum_info, threads = await asyncio.gather(awaitify(find_tieba_info)(fname),
-                                                   tieba.get_threads(fname, rn=50, pn=pn))
+                                                   tieba.get_threads(fname, rn=50, pn=pn, sort=sort))
 
-    return await render_template('bar.html', info=forum_info, threads=threads)
+    return await render_template('bar.html', info=forum_info, threads=threads, sort=sort)
 
 if __name__ == '__main__':
     app.run(debug=True)
