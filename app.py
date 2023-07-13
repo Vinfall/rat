@@ -131,7 +131,7 @@ async def thread_view(tid):
 
 @app.route('/f')
 async def forum_view():
-    fname =  request.args['kw']
+    fname =  request.args['kw'][:-1] if request.args['kw'][-1] == '吧' else request.args['kw']
     pn = int(request.args.get('pn') or 1)
     sort = int(request.args.get('sort') or 0)
 
@@ -148,6 +148,10 @@ async def forum_view():
 @app.route('/home/main')
 async def user_view():
     return 'UNDER CONSTRUCTION'
+
+@app.route('/')
+async def main_view():
+    return await render_template('index.html')
 
 ######################################################################
 
