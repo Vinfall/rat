@@ -104,11 +104,13 @@ async def _jinja2_filter_translate(frags, reply_id=0):
 async def thread_view(tid):
     tid = int(tid)
     pn = int(request.args.get('pn') or 1)
+    ao = int(request.args.get('ao') or 0)
 
     async with aiotieba.Client() as tieba:
         # Default to 15 posts per page, confirm to tieba.baidu.com
         thread_info = await tieba.get_posts(tid, rn=15, pn=pn,
-                                            with_comments=should_fetch_comments)
+                                            with_comments=should_fetch_comments,
+                                            only_thread_author=ao)
 
         available_users = []
         for floor in thread_info:
@@ -125,7 +127,7 @@ async def thread_view(tid):
         
         await asyncio.gather(*(cache_name_from_id(tieba, i) for i in all_users))
     
-    return await render_template('thread.html', info=thread_info)
+    return await render_template('thread.html', info=thread_info, ao=ao)
 
 @app.route('/f')
 async def forum_view():

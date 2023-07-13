@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-  <title>{{ info.thread.text }} - 自由软件吧 - RAT</title>
+  <title>{{ info.thread.text }}{{ ao }} - 自由软件吧 - RAT</title>
 
   <meta charset="utf-8">
   <meta name="referrer" content="never">
@@ -14,6 +14,12 @@
     <div class="title">{{ info.thread.title }}</div>
     <div class="from"><a href="/f?kw={{ info.forum.fname }}">{{ info.forum.fname }}吧</a></div>
   </header>
+  <div class="list">
+    <div class="vlist">
+      <div><a {% if not ao %} class="current-sel" {% endif %} href="/p/{{ info.thread.tid }}?ao=0">全部回复</a></div>
+      <div><a {% if ao %} class="current-sel" {% endif %} href="/p/{{ info.thread.tid }}?ao=1">仅看楼主</a></div>
+    </div>
+  </div>
   <div class="list">
     {% for p in info %}
     <div class="post" id="{{ p.floor }}">
@@ -61,13 +67,13 @@
   
   <div class="paginator">
     {% if info.page.current_page > 1 %}
-    <a href="/p/{{ info.thread.tid }}">首页</a>
+    <a href="/p/{{ info.thread.tid }}&ao={{ao}}">首页</a>
     {% endif %}
 
     {% for i in range(5) %}
     {% set np = info.page.current_page - 5 + i %}
     {% if np > 0 %}
-    <a href="/p/{{ info.thread.tid }}?pn={{ np }}">{{ np }}</a>
+    <a href="/p/{{ info.thread.tid }}?pn={{ np }}&ao={{ao}}">{{ np }}</a>
     {% endif %}
     {% endfor %}
 
@@ -76,12 +82,12 @@
     {% for i in range(5) %}
     {% set np = info.page.current_page + 1 + i %}
     {% if np <= info.page.total_page %}
-    <a href="/p/{{ info.thread.tid }}?pn={{ np }}">{{ np }}</a>
+    <a href="/p/{{ info.thread.tid }}?pn={{ np }}&ao={{ao}}">{{ np }}</a>
     {% endif %}
     {% endfor %}
 
     {% if info.page.current_page < info.page.total_page %}
-    <a href="/p/{{ info.thread.tid }}?pn={{ info.page.total_page }}">尾页</a>
+    <a href="/p/{{ info.thread.tid }}?pn={{ info.page.total_page }}&ao={{ao}}">尾页</a>
     {% endif %}
   </div>
   
