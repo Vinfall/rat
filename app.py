@@ -119,14 +119,12 @@ async def thread_view(tid):
         all_users = {}
         for floor in thread_info:
             for comment in floor.comments:
-                if not comment.reply_to_id in available_users:
+                if comment.reply_to_id and not comment.reply_to_id in available_users:
                     all_users[comment.reply_to_id] = ''
-        all_users.pop(0, None)
         all_users = list(all_users.keys())
         
         await asyncio.gather(*(cache_name_from_id(tieba, i) for i in all_users))
-
-            
+    
     return await render_template('thread.html', info=thread_info)
 
 @app.route('/f')
@@ -138,8 +136,28 @@ async def forum_view():
     async with aiotieba.Client() as tieba:
         forum_info, threads = await asyncio.gather(awaitify(find_tieba_info)(fname),
                                                    tieba.get_threads(fname, rn=50, pn=pn, sort=sort))
+        if threads.page.current_page > threads.page.total_page or pn < 1:
+            return await render_template('error.html', msg = \
+                                         f'请求越界，本贴吧共有 { threads.page.total_page } 页'
+                                         f'而您查询了第 { threads.page.current_page} 页')
 
     return await render_template('bar.html', info=forum_info, threads=threads, sort=sort)
+
+@app.route('/home/main')
+async def user_view():
+    return 'UNDER CONSTRUCTION'
+
+######################################################################
+
+@app.errorhandler(RuntimeError)
+async def runtime_error_view(e):
+    if e.msg:
+        return await render_template('error.html', msg=e.msg)
+    return await render_template('error.html', msg='错误信息不可用')
+
+@app.errorhandler(Exception)
+async def general_error_view(e):
+    return await render_template('error.html', msg=e)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -14,7 +14,7 @@ def extract_image_name(url):
     except:
         return '404.jpg'
 
-@cache.cached(timeout=60, key_prefix='tieba_info')
+@cache.memoize(timeout=60)
 def find_tieba_info(tname):
     """Get the tiebat avatar for the forum name.
 
@@ -24,7 +24,14 @@ def find_tieba_info(tname):
     """
     info = { 'name': tname }
     
-    res = requests.get('https://tieba.baidu.com/f', params={'kw': tname})
+    res = requests.get('https://tieba.baidu.com/f',
+                       params={'kw': tname},
+                       allow_redirects=False)
+
+    # Baidu will bring us to the search page, so we ignore it.
+    if res.status_code == 302:
+        raise ValueError('您搜索的贴吧不存在')
+    
     soup = bs4.BeautifulSoup(res.text, 'html.parser')
 
     elems = soup.select('#forum-card-head')

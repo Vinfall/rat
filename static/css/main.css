@@ -17,6 +17,18 @@
     color: inherit !important;
 }
 
+.post :nth-child(1) {
+	flex: 0 0 auto;
+}
+
+.post .tier {
+	text-align: center;
+	padding: .3rem;
+	font-size: .8rem;
+	background-color: var(--replies-color);
+}
+ 
+
 /* global styling */
 :root {
 	--bg-color: #eeeecc;
