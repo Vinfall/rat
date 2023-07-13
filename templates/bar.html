@@ -23,9 +23,8 @@
 </header>
 <div class="list">
   <div class="vlist">
-    <!-- POPULAR SORT IS UNAVAILABLE -->
-    <!-- <div><a {% if sort == 0 %} class="current-sel" {% endif %}
-	 href="/f?kw={{ info['name'] }}&pn={{ threads.page.current_page }}&sort=0">时下热门</a></div> -->
+    <div><a {% if sort == 0 %} class="current-sel" {% endif %}
+	 href="/f?kw={{ info['name'] }}&pn={{ threads.page.current_page }}&sort=0">时下热门</a></div>
     <div><a {% if sort == 5 %} class="current-sel" {% endif %}
 	    href="/f?kw={{ info['name'] }}&sort=5">最新回复</a></div>
     <div><a {% if sort == 1 %} class="current-sel" {% endif %}
@@ -75,13 +74,13 @@
     
     {% for i in range(5) %}
     {% set np = threads.page.current_page + 1 + i %}
-    {% if np <= threads.page.total_page %}
+    {% if np <= tp %}
     <a href="/f?kw={{ info['name'] }}&pn={{ np }}&sort={{ sort }}">{{ np }}</a>
     {% endif %}
     {% endfor %}
 
-    {% if threads.page.current_page < threads.page.total_page %}
-    <a href="/f?kw={{ info['name'] }}&pn={{ threads.page.total_page }}&sort={{ sort }}">尾页</a>
+    {% if threads.page.current_page < tp %}
+    <a href="/f?kw={{ info['name'] }}&pn={{ tp }}&sort={{ sort }}">尾页</a>
     {% endif %}
   </div>
 </div>

@@ -133,7 +133,7 @@ async def thread_view(tid):
 async def forum_view():
     fname =  request.args['kw']
     pn = int(request.args.get('pn') or 1)
-    sort = int(request.args.get('sort') or 5)
+    sort = int(request.args.get('sort') or 0)
 
     async with aiotieba.Client() as tieba:
         forum_info, threads = await asyncio.gather(awaitify(find_tieba_info)(fname),
@@ -142,7 +142,8 @@ async def forum_view():
             return await render_template('error.html', msg = \
                                          f'请求越界，本贴吧共有 { threads.page.total_page } 页'
                                          f'而您查询了第 { threads.page.current_page} 页')
-    return await render_template('bar.html', info=forum_info, threads=threads, sort=sort)
+    return await render_template('bar.html', info=forum_info, threads=threads, sort=sort,
+                                 tp = ((115 if threads.page.total_page > 115 else threads.page.total_page) if sort == 0 else threads.page.total_page))
 
 @app.route('/home/main')
 async def user_view():
