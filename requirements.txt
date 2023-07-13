@@ -1,6 +1,6 @@
 aioflask==0.4.0
 flask==2.1.3
-aiotieba==3.4.5
+aiotieba==3.5.0
 Flask-Caching
 beautifulsoup4
 requests

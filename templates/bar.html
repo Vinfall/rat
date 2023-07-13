@@ -23,12 +23,13 @@
 </header>
 <div class="list">
   <div class="vlist">
-    <div><a {% if sort == 0 %} class="current-sel" {% endif %}
-	    href="/f?kw={{ info['name'] }}&pn={{ threads.page.current_page }}&sort=0">时下热门</a></div>
-    <div><a {% if sort == 1 %} class="current-sel" {% endif %}
-	    href="/f?kw={{ info['name'] }}&pn={{ threads.page.current_page }}&sort=1">最新发布</a></div>
+    <!-- POPULAR SORT IS UNAVAILABLE -->
+    <!-- <div><a {% if sort == 0 %} class="current-sel" {% endif %}
+	 href="/f?kw={{ info['name'] }}&pn={{ threads.page.current_page }}&sort=0">时下热门</a></div> -->
     <div><a {% if sort == 5 %} class="current-sel" {% endif %}
-	    href="/f?kw={{ info['name'] }}&pn={{ threads.page.current_page }}&sort=5">最新回复</a></div>
+	    href="/f?kw={{ info['name'] }}&sort=5">最新回复</a></div>
+    <div><a {% if sort == 1 %} class="current-sel" {% endif %}
+	    href="/f?kw={{ info['name'] }}&sort=1">最新发布</a></div>
   </div>
 </div>
 <div class="list">
