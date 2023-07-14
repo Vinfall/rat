@@ -17,6 +17,7 @@ app = Flask(__name__)
 app.config['SERVER_NAME'] = '127.0.0.1:8886'
 
 should_fetch_comments = True
+only_use_native_api = True
 
 ######################################################################
 

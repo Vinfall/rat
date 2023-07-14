@@ -136,8 +136,16 @@ async def forum_view():
     sort = int(request.args.get('sort') or 0)
 
     async with aiotieba.Client() as tieba:
-        forum_info, threads = await asyncio.gather(awaitify(find_tieba_info)(fname),
-                                                   tieba.get_threads(fname, pn=pn, sort=sort))
+        if only_use_native_api:
+            forum_info, threads = await asyncio.gather(tieba.get_forum_detail(fname),
+                                                       tieba.get_threads(fname, pn=pn, sort=sort))
+            forum_info = { 'avatar': 'a6efce1b9d16fdfa6291460ab98f8c5495ee7b51.jpg',
+                           'topic': forum_info.post_num, 'thread': forum_info.post_num,
+                           'member': forum_info.member_num, 'desc': '贴吧描述暂不可用', 'name': forum_info.fname }
+        else:
+            forum_info, threads = await asyncio.gather(awaitify(find_tieba_info)(fname),
+                                                       tieba.get_threads(fname, pn=pn, sort=sort))
+        
         if threads.page.current_page > threads.page.total_page or pn < 1:
             return await render_template('error.html', msg = \
                                          f'请求越界，本贴吧共有 { threads.page.total_page } 页'
