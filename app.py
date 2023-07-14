@@ -147,7 +147,23 @@ async def forum_view():
 
 @app.route('/home/main')
 async def user_view():
-    return 'UNDER CONSTRUCTION'
+    pn = int(request.args.get('pn') or 1)
+    i = request.args.get('id')
+    try: # try converting it to user_id, otherwise using the string.
+        i = int(i)
+    except:
+        pass
+    
+    async with aiotieba.Client() as tieba:
+        try:
+            hp = await tieba.get_homepage(i, pn)
+        except ValueError:
+            return await render_template('error.html', msg='您已超过最后页')
+
+    if len(hp[1]) == 0 and pn > 1:
+        return await render_template('error.html', msg='您已超过最后页')
+    
+    return await render_template('user.html', hp=hp, pn=pn)
 
 @app.route('/')
 async def main_view():
@@ -157,7 +173,7 @@ async def main_view():
 
 @app.errorhandler(RuntimeError)
 async def runtime_error_view(e):
-    if e.msg:
+    if hasattr(e, 'msg'):
         return await render_template('error.html', msg=e.msg)
     return await render_template('error.html', msg='错误信息不可用')
 
