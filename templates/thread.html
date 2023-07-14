@@ -32,7 +32,7 @@
       </div>
       <div>
 	<div class="userinfo">
-	  <a href="/home/main?id={{ p.user.user_id }}">{{ p.user.user_name }}</a>
+	  <a href="/home/main?id={{ p.user.user_id }}">{{ p.user.show_name }}</a>
 	  {% if p.is_thread_author %}
 	  <span class="tag tag-blue">楼主</span>
 	  {% endif %}
@@ -49,7 +49,7 @@
 	    <img class="avatar" src="/proxy/avatar/{{ comment.user.portrait }}">
 	    <div>
 	      <div class="userinfo">
-		<a href="/home/main?id={{ comment.user.user_id }}">{{ comment.user.user_name }}</a>
+		<a href="/home/main?id={{ comment.user.user_id }}">{{ comment.user.show_name }}</a>
 	      </div>
 	      <div class="content">
 		{{ comment.contents|translate(comment.reply_to_id)|safe }}
