@@ -1,5 +1,6 @@
 import asyncio
 import aiotieba
+import uvicorn
 
 from aioflask import render_template, request, escape
 from urllib.parse import quote_plus
@@ -7,6 +8,8 @@ from datetime import datetime
 
 from aiotieba.api.get_posts._classdef import *
 from aiotieba.api._classdef.contents import *
+
+from proxify import AsgiproxifyHandler
 
 from shared import *
 from extra import *
@@ -25,6 +28,10 @@ async def cache_name_from_id(c, i):
     if not cache.get(i):
         r = await c.get_user_info(i, require=aiotieba.enums.ReqUInfo.USER_NAME)
         cache.set(i, r)
+
+# Normalize unicode characters to ASCII form.
+def normalize_utf8(s):
+    return s.encode('unicode_escape').decode('ascii').replace('\\', '')
 
 ######################################################################
 
@@ -78,7 +85,7 @@ async def _jinja2_filter_translate(frags, reply_id=0):
         elif isinstance(frag, FragEmoji_p):
             htmlfmt = append_with_leading_clean(htmlfmt,
                                                 f'<img class="emoticons" alt="[{ frag.desc }]"'
-                                                f'src="/static/emoticons/{ quote_plus(frag.desc) }.png">')
+                                                f'src="/static/emoticons/{ normalize_utf8(frag.desc) }.png">')
             if i+1 < len(frags) and isinstance(frags[i+1], FragImage_p):
                 htmlfmt += '<br>'
         elif isinstance(frag, FragLink):
@@ -136,21 +143,17 @@ async def forum_view():
     sort = int(request.args.get('sort') or 0)
 
     async with aiotieba.Client() as tieba:
-        if only_use_native_api:
-            forum_info, threads = await asyncio.gather(tieba.get_forum_detail(fname),
-                                                       tieba.get_threads(fname, pn=pn, sort=sort))
-            if hasattr(forum_info, 'slogan'):
-                forum_info = { 'avatar': extract_image_name(forum_info.origin_avatar),
-                               'topic': forum_info.post_num, 'thread': forum_info.post_num,
-                               'member': forum_info.member_num, 'desc': forum_info.slogan,
-                               'name': forum_info.fname }
-            else:
-                forum_info = { 'avatar': 'a6efce1b9d16fdfa6291460ab98f8c5495ee7b51.jpg',
-                               'topic': forum_info.post_num, 'thread': forum_info.post_num,
-                               'member': forum_info.member_num, 'desc': '贴吧描述暂不可用', 'name': forum_info.fname }
+        forum_info, threads = await asyncio.gather(tieba.get_forum_detail(fname),
+                                                   tieba.get_threads(fname, pn=pn, sort=sort))
+        if hasattr(forum_info, 'slogan'):
+            forum_info = { 'avatar': extract_image_name(forum_info.origin_avatar),
+                           'topic': forum_info.post_num, 'thread': forum_info.post_num,
+                           'member': forum_info.member_num, 'desc': forum_info.slogan,
+                           'name': forum_info.fname }
         else:
-            forum_info, threads = await asyncio.gather(awaitify(find_tieba_info)(fname),
-                                                       tieba.get_threads(fname, pn=pn, sort=sort))
+            forum_info = { 'avatar': 'a6efce1b9d16fdfa6291460ab98f8c5495ee7b51.jpg',
+                           'topic': forum_info.post_num, 'thread': forum_info.post_num,
+                           'member': forum_info.member_num, 'desc': '贴吧描述暂不可用', 'name': forum_info.fname }
         
         if threads.page.current_page > threads.page.total_page or pn < 1:
             return await render_template('error.html', msg = \
@@ -195,5 +198,17 @@ async def runtime_error_view(e):
 async def general_error_view(e):
     return await render_template('error.html', msg=e)
 
+######################################################################
+
+@proxified.register('/proxy/avatar/')
+class AvatarProxyHandler(AsgiproxifyHandler):
+    def make_request_url(self):
+        return 'http://tb.himg.baidu.com/sys/portraith/item/' + self.scope['path'][14:]
+
+@proxified.register('/proxy/pic/')
+class PictureProxyHandler(AsgiproxifyHandler):
+    def make_request_url(self):
+        return 'http://imgsa.baidu.com/forum/pic/item/' + self.scope['path'][11:]
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    uvicorn.run(proxified, host=host, port=port)

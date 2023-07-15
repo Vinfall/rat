@@ -1,7 +1,5 @@
 aioflask==0.4.0
 flask==2.1.3
-aiotieba==3.5.0
+aiotieb
+aiohttp
 Flask-Caching
-beautifulsoup4
-requests
-twisted

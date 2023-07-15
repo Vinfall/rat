@@ -25,8 +25,7 @@ $ . venv/bin/activate
 
 ## 配置方法
 
-打开 `shared.py` 修改 `app.config['SERVER_NAME']` 中冒号后的数字来改变端口号。
-因为 twisted 的原因，你需要将代理指向那个端口号 -1 的端口上。
+打开 `shared.py` 修改 `port` 后的数字来改变端口号。
 
 其中的 `should_fetch_comments` 用于控制是否获取楼中楼。如果浏览性能不佳可以考虑
 关闭楼中楼获取。

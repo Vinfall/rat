@@ -3,6 +3,8 @@ from flask_caching import Cache
 
 from functools import wraps
 
+from proxify import Asgiproxify
+
 def awaitify(sync_func):
     """Wrap a synchronous callable to allow ``await``'ing it"""
     @wraps(sync_func)
@@ -11,13 +13,17 @@ def awaitify(sync_func):
     return async_func
 
 app = Flask(__name__)
+proxified = Asgiproxify(app)
 
 ######################################################################
 
-app.config['SERVER_NAME'] = '127.0.0.1:8886'
+host = 'localhost'
+port = 8885
 
 should_fetch_comments = True
-only_use_native_api = True
+
+app.config['DEBUG'] = False
+app.config['TESTING'] = False
 
 ######################################################################
 
