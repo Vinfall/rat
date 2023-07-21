@@ -1,7 +1,5 @@
 '''Extra APIs'''
 
-import requests
-import bs4
 import re
 
 from shared import *
