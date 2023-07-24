@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{ info['name'] }}吧 - RAT</title>
+	</head>
+  <body>
+	<pre>
+------------------------------------------------------------------------
+    欢迎来到{{info['name']}}吧！ {{info['desc']}}
+        关注 {{ info['member']|intsep }} 主题 {{ info['topic']|intsep }} 帖子 {{ info['thread']|intsep }}
+------------------------------------------------------------------------
+
+         <a {% if sort == 0 %} class="current-sel" {% endif %} href="/f?kw={{ info['name'] }}&pn={{ threads.page.current_page }}&sort=0">[时下热门]</a>         <a {% if sort == 5 %} class="current-sel" {% endif %} href="/f?kw={{ info['name'] }}&sort=5">[最新回复]</a>         <a {% if sort == 1 %} class="current-sel" {% endif %} href="/f?kw={{ info['name'] }}&sort=1">[最新发布]</a></pre>
+	{% for t in threads %}
+	<pre>----- {{ '%4s'|format(t.reply_num) }} {{ '/置顶/ ' if t.is_top or t.is_livepost else '' }}{{ '/精/ ' if t.is_good else '' }}
++ 发帖人：{{ t.user.show_name }}
++ 最近回复时间： {{ t.last_time|date }}
+
+<a href="/p/{{ t.tid }}">{{ t.title if t.title else t.text|twrap }}</a>
+{% if t.title %}
+{{ t.text[(t.title|length)+1:]|twrap(rws=True) }}{% endif %}</pre>
+	{% endfor %}
+	<pre>
+------------------------------------------------------------------------
+	</pre>
+    <a href="/f?kw={{ info['name'] }}&sort={{ sort }}">首页</a> |
+	
+	{% for i in range(5) %}
+    {% set np = threads.page.current_page - 5 + i %}
+    {% if np > 0 %}
+    <a href="/f?kw={{ info['name'] }}&pn={{ np }}&sort={{ sort }}">{{ np }}</a> |
+    {% endif %}
+    {% endfor %}
+
+	<strong>{{ threads.page.current_page }}</strong> |
+
+    {% for i in range(5) %}
+    {% set np = threads.page.current_page + 1 + i %}
+    {% if np <= tp %}
+    <a href="/f?kw={{ info['name'] }}&pn={{ np }}&sort={{ sort }}">{{ np }}</a> |
+    {% endif %}
+    {% endfor %}
+	
+    <a href="/f?kw={{ info['name'] }}&pn={{ tp }}&sort={{ sort }}">尾页</a>
+	<pre>
+------------------------------------------------------------------------
+      <a href="/">RAT Ain't Tieba</a>       <a href="https://0xacab.org/johnxina/rat/-/raw/no-masters/LICENSE">自豪地以 AGPLv3 释出</a>       <a href="https://0xacab.org/johnxina/rat">源代码</a>
+------------------------------------------------------------------------
+	</pre>
+  </body>
+</html>

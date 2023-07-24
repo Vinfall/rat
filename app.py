@@ -2,6 +2,9 @@ import asyncio
 import aiotieba
 import uvicorn
 
+import re
+import textwrap
+
 from aioflask import render_template, request, escape
 from urllib.parse import quote_plus
 from datetime import datetime
@@ -33,6 +36,25 @@ async def cache_name_from_id(c, i):
 def normalize_utf8(s):
     return s.encode('unicode_escape').decode('ascii').replace('\\', '')
 
+# Render the template with compatibility detection.
+def render_template_c(tmpl, **kwargs):
+    text_browsers = ['w3m', 'Lynx', 'ELinks', 'Links', 'URL/Emacs', 'Emacs']
+    ua = request.headers.get('User-Agent')
+
+    for text_ua in text_browsers:
+        if ua.startswith(text_ua):
+            return render_template(f'{tmpl}.text', **kwargs)
+    return render_template(tmpl, **kwargs)
+
+# Wrap the text to the given width.
+def wrap_text(i, width=70, join='\n', rws=False):
+    i = str(i)
+    def add_whitespace_to_chinese(match):
+        return '\uFFFD' + match.group(0)
+    pattern = r'[\u4e00-\u9fff\uFF00-\uFFEF]'
+    aft = re.sub(pattern, add_whitespace_to_chinese, i)
+    return join.join(textwrap.wrap(aft, width=width, replace_whitespace=rws)).replace('\uFFFD', '')
+
 ######################################################################
 
 # Convert a timestamp to its simpliest readable date format.
@@ -62,6 +84,15 @@ def _jinja2_filter_intsep(i):
 @app.template_filter('trim')
 def _jinja2_filter_trim(text):
     return text[:78] + '……' if len(text) > 78 else text
+
+# Format comments to its equiviant text HTML.
+@app.template_filter('tcomments')
+async def _jinja2_filter_tcomments(coms):
+    buf = ' | '
+    for com in coms:
+        buf += wrap_text(f'{ com.user.show_name }：{ com.text }', width=60, join="\n | ")
+        buf += '\n \---\n | '
+    return buf[:-4]
 
 # Format fragments to its equiviant HTML.
 @app.template_filter('translate')
@@ -105,6 +136,10 @@ async def _jinja2_filter_translate(frags, reply_id=0):
 
     return htmlfmt
 
+@app.template_filter('twrap')
+async def _jinja2_filter_translate(text, width=70, join='\n', rws=False):
+    return wrap_text(text, width, join, rws)
+
 ######################################################################
 
 @app.route('/p/<tid>')
@@ -134,7 +169,7 @@ async def thread_view(tid):
         
         await asyncio.gather(*(cache_name_from_id(tieba, i) for i in all_users))
     
-    return await render_template('thread.html', info=thread_info, ao=ao)
+    return await render_template_c('thread.html', info=thread_info, ao=ao)
 
 @app.route('/f')
 async def forum_view():
@@ -156,10 +191,10 @@ async def forum_view():
                            'member': forum_info.member_num, 'desc': '贴吧描述暂不可用', 'name': forum_info.fname }
         
         if threads.page.current_page > threads.page.total_page or pn < 1:
-            return await render_template('error.html', msg = \
+            return await render_template_c('error.html', msg = \
                                          f'请求越界，本贴吧共有 { threads.page.total_page } 页'
                                          f'而您查询了第 { threads.page.current_page} 页')
-    return await render_template('bar.html', info=forum_info, threads=threads, sort=sort,
+    return await render_template_c('bar.html', info=forum_info, threads=threads, sort=sort,
                                  tp = ((115 if threads.page.total_page > 115 else threads.page.total_page) if sort == 0 else threads.page.total_page))
 
 @app.route('/home/main')
@@ -175,28 +210,28 @@ async def user_view():
         try:
             hp = await tieba.get_homepage(i, pn)
         except ValueError:
-            return await render_template('error.html', msg='您已超过最后页')
+            return await render_template_c('error.html', msg='您已超过最后页')
 
     if len(hp[1]) == 0 and pn > 1:
-        return await render_template('error.html', msg='您已超过最后页')
+        return await render_template_c('error.html', msg='您已超过最后页')
     
-    return await render_template('user.html', hp=hp, pn=pn)
+    return await render_template_c('user.html', hp=hp, pn=pn)
 
 @app.route('/')
 async def main_view():
-    return await render_template('index.html')
+    return await render_template_c('index.html')
 
 ######################################################################
 
 @app.errorhandler(RuntimeError)
 async def runtime_error_view(e):
     if hasattr(e, 'msg'):
-        return await render_template('error.html', msg=e.msg)
-    return await render_template('error.html', msg='错误信息不可用')
+        return await render_template_c('error.html', msg=e.msg)
+    return await render_template_c('error.html', msg='错误信息不可用')
 
 @app.errorhandler(Exception)
 async def general_error_view(e):
-    return await render_template('error.html', msg=e)
+    return await render_template_c('error.html', msg=e)
 
 ######################################################################
 

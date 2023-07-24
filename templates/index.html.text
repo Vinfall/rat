@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>首页 - RAT</title>
+	</head>
+  <body>
+	<pre>
+------------------------------------------------------------------------
+      欢迎来到 RAT！ RAT Ain't Tieba 是一款自由的百度贴吧前端。
+------------------------------------------------------------------------
+
+______  ___ _____    ___  _       _ _     _____ _      _           
+| ___ \/ _ |_   _|  / _ \(_)     ( | |   |_   _(_)    | |          
+| |_/ / /_\ \| |   / /_\ \_ _ __ |/| |_    | |  _  ___| |__   __ _ 
+|    /|  _  || |   |  _  | | '_ \  | __|   | | | |/ _ | '_ \ / _` |
+| |\ \| | | || |   | | | | | | | | | |_    | | | |  __| |_) | (_| |
+\_| \_\_| |_/\_/   \_| |_|_|_| |_|  \__|   \_/ |_|\___|_.__/ \__,_|
+                                                                   
+
+您正在查看的是为终端浏览器优化过的前端页面。如果您认为您的浏览器不应该
+使用此页面，请于下方报告缺陷。如果您的终端浏览器不能很好地处理页面，您
+也可以报告缺陷。此前端页面由 *初春トワ* 打造，祝您有个愉快网上冲浪体验。
+
+RAT Ain't Tieba 是以 AGPLv3 分发的自由软件，它尊重您的自由。更多关于
+自由软件运动的内容，请见 <a href="https://writefreesoftware.org">writefreesoftware</a> 与 <a href="https://gnu.org">GNU</a>。
+
+  源代码  ：<a href="https://0xacab.org/johnxina/rat">0xacab（对文本浏览器不友好）</a>
+源代码仓库：https://0xacab.org/johnxina/rat.git
+缺陷追踪器：<a href="https://0xacab.org/johnxina/rat/-/issues">0xacab（对文本浏览器不友好）</a>
+
+当然，您也可以使用电子邮件报告缺陷：<a href="mailto:bingchilling@riseup.net">bingchilling@riseup.net</a>。
+	</pre>
+	
+	<form action="/f" method="get">
+		  <label for="kw">进入贴吧：</label>
+		  <input type="text" name="kw" required />
+	</form>
+
+	<pre>
+
+------------------------------------------------------------------------
+      <a href="/">RAT Ain't Tieba</a>       <a href="https://0xacab.org/johnxina/rat/-/raw/no-masters/LICENSE">自豪地以 AGPLv3 释出</a>       <a href="https://0xacab.org/johnxina/rat">源代码</a>
+------------------------------------------------------------------------
+	</pre>
+  </body>
+</html>
