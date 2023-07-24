@@ -28,9 +28,9 @@ def append_with_leading_clean(orig, content):
 
 # Return the corresponding user name for an id.
 async def cache_name_from_id(c, i):
-    if not cache.get(i):
-        r = await c.get_user_info(i, require=aiotieba.enums.ReqUInfo.USER_NAME)
-        cache.set(i, r)
+    if not cache.get(str(i)):
+        r = await c.get_user_info(i, require=aiotieba.enums.ReqUInfo.NICK_NAME)
+        cache.set(str(i), r)
 
 # Normalize unicode characters to ASCII form.
 def normalize_utf8(s):
@@ -100,7 +100,7 @@ async def _jinja2_filter_translate(frags, reply_id=0):
     htmlfmt = ''
 
     if reply_id:
-        htmlfmt += f'<a href="/home/main?id={reply_id}">@{ cache.get(reply_id) }</a> '
+        htmlfmt += f'<a href="/home/main?id={reply_id}">@{ cache.get(str(reply_id)) }</a> '
     
     for i in range(len(frags)):
         frag = frags[i]
@@ -158,7 +158,7 @@ async def thread_view(tid):
         for floor in thread_info:
             for comment in floor.comments:
                 available_users.append(comment.author_id)
-                cache.set(comment.author_id, comment.user.user_name)
+                cache.set(str(comment.author_id), comment.user.show_name)
         
         all_users = {}
         for floor in thread_info:

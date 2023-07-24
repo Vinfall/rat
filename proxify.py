@@ -108,9 +108,8 @@ class Asgiproxify():
         task = asyncio.create_task(reverse_proxy_task())
 
         ev = await receive()
-        if ev['type'] == 'http.disconnect':
-            task.cancel()
-            return
+        task.cancel()
+        return
 
     async def __call__(self, scope, receive, send):
         if scope['type'] != 'http':

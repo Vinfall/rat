@@ -27,5 +27,9 @@ app.config['TESTING'] = False
 
 ######################################################################
 
+app.config['CACHE_DEFAULT_TIMEOUT'] = 60
+
+#app.config['CACHE_TYPE'] = 'RedisCache'
 app.config['CACHE_TYPE'] = 'SimpleCache'
+
 cache = Cache(app)
