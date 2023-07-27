@@ -116,8 +116,8 @@ async def _jinja2_filter_translate(frags, reply_id=0):
 
             # Leah Rowe's lightbox implementation
             htmlfmt += \
-                f'<img tabindex=1 src="/proxy/pic/{ extract_image_name(frag.src) }" />' \
-                f'<span class="f"><img width="{ frag.show_width }" src="/proxy/pic/{ extract_image_name(frag.origin_src) }" /></span>'
+                f'<img tabindex=1 width="{ frag.show_width }" height="{ frag.show_height }" src="/proxy/pic/{ extract_image_name(frag.src) }" />' \
+                f'<span class="f"><img src="/proxy/pic/{ extract_image_name(frag.origin_src) }" /></span>'
         elif isinstance(frag, FragEmoji_p):
             htmlfmt = append_with_leading_clean(htmlfmt,
                                                 f'<img class="emoticons" alt="[{ frag.desc }]"'
