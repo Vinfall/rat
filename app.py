@@ -38,7 +38,10 @@ def normalize_utf8(s):
 
 # Render the template with compatibility detection.
 def render_template_c(tmpl, **kwargs):
-    text_browsers = ['w3m', 'Lynx', 'ELinks', 'Links', 'URL/Emacs', 'Emacs']
+    text_browsers = ['w3m', 'Lynx', 'ELinks', 'Links', 'URL/Emacs', 'Emacs',
+        'Mozilla/5.0 (compatible; hjdicks)', # abaco, mothra, etc
+
+    ]
     ua = request.headers.get('User-Agent')
 
     for text_ua in text_browsers:
