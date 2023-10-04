@@ -1,0 +1,40 @@
+# Use the official Python image as the base image
+FROM python:3.11-slim
+
+
+# Install the patch utility
+RUN apt-get update && apt-get install -y patch
+
+
+# Set the working directory to /app
+WORKDIR /app
+
+
+# Copy the local requirements.txt file to the container
+COPY requirements.txt .
+
+
+# Install the Python dependencies
+RUN pip install -r requirements.txt
+
+# Copy the aiotieba-handle-exception-expose.patch file to the container
+COPY aiotieba-handle-exception-expose.patch .
+
+
+# Replace paths in the patch file to reflect the correct paths within the container
+RUN sed -i 's|venv/lib/python3.11/site-packages/|/usr/local/lib/python3.11/site-packages/|g' aiotieba-handle-exception-expose.patch
+
+
+# Apply the patch using the 'patch' command
+RUN patch -d/ -p0 < aiotieba-handle-exception-expose.patch
+
+
+# Expose port 8886
+EXPOSE 8886
+
+
+# Copy the local code to the container
+COPY . .
+
+# Run the Python script with Uvicorn, binding to all available network interfaces
+CMD ["gunicorn", "app:proxified", "--max-requests", "50", "--worker-class", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8886"]
