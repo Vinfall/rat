@@ -47,7 +47,11 @@ class AsgiproxifyHandler():
         headers.pop('Server', None)
         headers.pop('Date', None)
 
-        resp_headers = list(headers.items())
+        bheaders = {}
+        for k, v in headers.items():
+            bheaders[k.encode()] = v.encode()
+        
+        resp_headers = list(bheaders.items())
         return resp_headers
 
     def make_request(self, session):

@@ -1,5 +1,8 @@
-aioflask==0.4.0
+aioflask
 flask==2.1.3
+Werkzeug==2.2.2
 aiotieba
 aiohttp
+uvicorn[standard]
+gunicorn
 Flask-Caching

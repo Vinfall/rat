@@ -17,15 +17,21 @@ $ . venv/bin/activate
 
 ## 运行方法
 
+调试运行（已知在生产环境下有内存溢出）：
+
 ```
 (venv) $ python main.py
 ```
 
-默认配置下，你应将反向代理指向 `127.0.0.1:8885`。
+生产环境运行：
+
+```
+(venv) $ gunicorn app:proxified --max-requests 50 --workers 2 --worker-class uvicorn.workers.UvicornWorker
+```
+
+默认参数下，你应将反向代理指向 `127.0.0.1:8000`。
 
 ## 配置方法
-
-打开 `shared.py` 修改 `port` 后的数字来改变端口号。
 
 其中的 `should_fetch_comments` 用于控制是否获取楼中楼。如果浏览性能不佳可以考虑
 关闭楼中楼获取。
