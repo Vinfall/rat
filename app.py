@@ -246,7 +246,7 @@ async def general_error_view(e):
 @proxified.register('/proxy/avatar/')
 class AvatarProxyHandler(AsgiproxifyHandler):
     def make_request_url(self):
-        return 'http://tb.himg.baidu.com/sys/portraith/item/' + self.scope['path'][14:]
+        return 'http://himg.baidu.com/sys/portraith/item/' + self.scope['path'][14:]
 
 @proxified.register('/proxy/pic/')
 class PictureProxyHandler(AsgiproxifyHandler):
