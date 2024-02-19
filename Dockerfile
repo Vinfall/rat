@@ -21,14 +21,6 @@ RUN pip install -r requirements.txt
 COPY aiotieba-handle-exception-expose.patch .
 
 
-# Replace paths in the patch file to reflect the correct paths within the container
-RUN sed -i 's|venv/lib/python3.11/site-packages/|/usr/local/lib/python3.11/site-packages/|g' aiotieba-handle-exception-expose.patch
-
-
-# Apply the patch using the 'patch' command
-RUN patch -d/ -p0 < aiotieba-handle-exception-expose.patch
-
-
 # Expose port 8886
 EXPOSE 8886
 

@@ -132,7 +132,7 @@ async def _jinja2_filter_translate(frags, reply_id=0):
             if frag.is_external:
                 markup += 'style="text-color: #ff0000;" '
             else:
-                url = frag.raw_url.lstrip('https://tieba.baidu.com')
+                url = frag.raw_url.path
             markup += f'href="{ url }">{ frag.title }</a>'
             htmlfmt = append_with_leading_clean(htmlfmt, markup)
         elif isinstance(frag, FragAt):
@@ -162,6 +162,9 @@ async def thread_view(tid):
                                             with_comments=should_fetch_comments,
                                             only_thread_author=ao)
 
+        if thread_info.err:
+            return await runtime_error_view(thread_info.err)
+
         available_users = []
         for floor in thread_info:
             for comment in floor.comments:
@@ -188,6 +191,12 @@ async def forum_view():
     async with aiotieba.Client() as tieba:
         forum_info, threads = await asyncio.gather(tieba.get_forum_detail(fname),
                                                    tieba.get_threads(fname, pn=pn, sort=sort))
+        if threads.err:
+            return await runtime_error_view(threads.err)
+        elif forum_info.err:
+            return await runtime_error_view(forum_info.err)
+
+
         if hasattr(forum_info, 'slogan'):
             forum_info = { 'avatar': extract_image_name(forum_info.origin_avatar),
                            'topic': forum_info.post_num, 'thread': forum_info.post_num,
@@ -217,10 +226,12 @@ async def user_view():
     async with aiotieba.Client() as tieba:
         try:
             hp = await tieba.get_homepage(i, pn)
+            if hp.err:
+                return await runtime_error_view(hp.err)
         except ValueError:
             return await render_template_c('error.html', msg='您已超过最后页')
 
-    if len(hp[1]) == 0 and pn > 1:
+    if not hp.objs and pn > 1:
         return await render_template_c('error.html', msg='您已超过最后页')
     
     return await render_template_c('user.html', hp=hp, pn=pn)
@@ -235,7 +246,7 @@ async def main_view():
 async def runtime_error_view(e):
     if hasattr(e, 'msg'):
         return await render_template_c('error.html', msg=e.msg)
-    return await render_template_c('error.html', msg='错误信息不可用')
+    return await render_template_c('error.html', msg=str(e) or '错误信息不可用')
 
 @app.errorhandler(Exception)
 async def general_error_view(e):

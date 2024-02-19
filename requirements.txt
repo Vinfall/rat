@@ -1,7 +1,7 @@
 aioflask
 flask==2.1.3
 Werkzeug==2.2.2
-aiotieba
+aiotieba>=4.0.0,<5.0.0
 aiohttp
 uvicorn[standard]
 gunicorn

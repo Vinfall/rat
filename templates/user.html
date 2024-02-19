@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-  <title>{{ hp[0].show_name }}的个人资料 - RAT</title>
+  <title>{{ hp.user.show_name }}的个人资料 - RAT</title>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,20 +20,20 @@
 
 <body>
   <header class="bar-nav">
-    <img src="/proxy/avatar/{{ hp[0].portrait }}"></nav>
+    <img src="/proxy/avatar/{{ hp.user.portrait }}"></nav>
 <div>
-  <div class="title">{{ hp[0].show_name }} <small>{{ hp[0].user_name }}</small></div>
-  <div class="description">{{ hp[0].sign }}</div>
+  <div class="title">{{ hp.user.show_name }} <small>{{ hp.user.user_name }}</small></div>
+  <div class="description">{{ hp.user.sign }}</div>
   <div class="stats">
-    <small>关注数: {{ hp[0].follow_num|intsep }}</small>
-    <small>粉丝数: {{ hp[0].fan_num|intsep }}</small>
-    <small>发帖数: {{ hp[0].post_num|intsep }}</small>
-    <small>关注贴吧数: {{ hp[0].forum_num|intsep }}</small>
+    <small>关注数: {{ hp.user.follow_num|intsep }}</small>
+    <small>粉丝数: {{ hp.user.fan_num|intsep }}</small>
+    <small>发帖数: {{ hp.user.post_num|intsep }}</small>
+    <small>关注贴吧数: {{ hp.user.forum_num|intsep }}</small>
   </div>
 </div>
 </header>
 <div class="list">
-  {% for t in hp[1] %}
+  {% for t in hp.objs %}
   <div class="thread">
     <div class="summary">
       <a href="/p/{{ t.tid }}">{{ t.text }} </a>
@@ -43,18 +43,18 @@
 </div>
   <div class="paginator">
     {% if pn > 1 %}
-    <a href="/home/main?id={{ hp[0].user_id }}&pn={{ 1 }}">首页</a>
+    <a href="/home/main?id={{ hp.user.user_id }}&pn={{ 1 }}">首页</a>
     {% endif %}
     
     {% for i in range(5) %}
     {% set np = pn - 5 + i %}
     {% if np > 0 %}
-    <a href="/home/main?id={{ hp[0].user_id }}&pn={{ np }}">{{ np }}</a>
+    <a href="/home/main?id={{ hp.user.user_id }}&pn={{ np }}">{{ np }}</a>
     {% endif %}
     {% endfor %}
     
     <a>{{ pn }}</a>
-    <a href="/home/main?id={{ hp[0].user_id }}&pn={{ pn+1 }}">下一页</a>
+    <a href="/home/main?id={{ hp.user.user_id }}&pn={{ pn+1 }}">下一页</a>
   </div>
 <footer>
   <div><a href="/">RAT Ain't Tieba</a></div>
