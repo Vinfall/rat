@@ -10,7 +10,6 @@ $ cd rat
 $ virtualenv venv
 $ . venv/bin/activate
 (venv) $ pip install -r requirements.txt
-(venv) $ patch -p1 < aiotieba-handle-exception-expose.patch
 ```
 
 若 `patch` 命令提示需要文件路径，输入对应路径即可。
@@ -20,7 +19,7 @@ $ . venv/bin/activate
 调试运行（已知在生产环境下有内存溢出）：
 
 ```
-(venv) $ python main.py
+(venv) $ python app.py
 ```
 
 生产环境运行：
