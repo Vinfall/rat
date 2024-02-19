@@ -68,7 +68,7 @@
   
   <div class="paginator">
     {% if info.page.current_page > 1 %}
-    <a href="/p/{{ info.thread.tid }}&ao={{ao}}">首页</a>
+    <a href="/p/{{ info.thread.tid }}?ao={{ao}}">首页</a>
     {% endif %}
 
     {% for i in range(5) %}

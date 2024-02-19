@@ -21,7 +21,7 @@
 {% if p.comments %}{{ '\n' + p.comments|tcomments }}{% endif %}</pre>
 	{% endfor %}
 	<pre>------------------------------------------------------------------------</pre>
-    <a href="/p/{{ info.thread.tid }}&ao={{ao}}">首页</a> |
+    <a href="/p/{{ info.thread.tid }}?ao={{ao}}">首页</a> |
 
     {% for i in range(5) %}
     {% set np = info.page.current_page - 5 + i %}
