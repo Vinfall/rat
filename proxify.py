@@ -99,13 +99,12 @@ class Asgiproxify():
                     })
                     async for chunk, _ in resp.content.iter_chunks():
                         try:
-                            async with asyncio.timeout(10):
-                                await send({
-                                    'type': 'http.response.body',
-                                    'body': chunk,
-                                    'more_body': True,
-                                })
-                        except TimeoutError:
+                            await asyncio.wait_for(send({
+                                'type': 'http.response.body',
+                                'body': chunk,
+                                'more_body': True,
+                            }), timeout=10)
+                        except asyncio.TimeoutError:
                             return
                     await send({'type': 'http.response.body'})
 
