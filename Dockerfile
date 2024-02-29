@@ -17,10 +17,6 @@ COPY requirements.txt .
 # Install the Python dependencies
 RUN pip install -r requirements.txt
 
-# Copy the aiotieba-handle-exception-expose.patch file to the container
-COPY aiotieba-handle-exception-expose.patch .
-
-
 # Expose port 8886
 EXPOSE 8886
 
