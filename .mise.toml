@@ -1,0 +1,29 @@
+[tools]
+uv = "latest"
+
+[settings.pipx]
+uvx = true
+
+[tasks.install]
+description = "setup venv with uv"
+run = """
+#!/usr/bin/env bash
+uv venv
+uv pip install -r requirements.txt
+"""
+
+[tasks.debug]
+description = "run debug server"
+run = """
+#!/usr/bin/env bash
+source .venv/bin/activate
+python app.py
+"""
+
+[tasks.serve]
+description = "run prod server"
+run = """
+#!/usr/bin/env bash
+source .venv/bin/activate
+gunicorn app:proxified --max-requests 50 --workers 2 --worker-class uvicorn.workers.UvicornWorker
+"""
