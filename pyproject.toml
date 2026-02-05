@@ -1,8 +1,8 @@
 [project]
 name = "rat"
-dynamic = ["version"]
 requires-python = ">=3.10"
 classifiers = ["Private :: Do Not Upload"]
+dynamic = ["version"]
 
 [tool.ruff]
 # force-exclude = true
@@ -12,22 +12,21 @@ unsafe-fixes = true
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "E501", # EditorConfig
-    "COM", # commas
-    "D1", # docstring
-    "D212",
-    "D203", # prefer D211
-    "ERA", # commented-out-code
-    "FIX", # fixme
-    "TD002", # todo
-    "TD003",
-    "PLR2004", # magic-value-comparison
-    "PTH", # flake8-use-pathlib: slower than os
-    "RET505", # superfluous-else-return
-    "T20", # print
-
-    # repo specific
-    "ANN",
+  "E501", # EditorConfig
+  "COM", # commas
+  "D1", # docstring
+  "D212",
+  "D203", # prefer D211
+  "ERA", # commented-out-code
+  "FIX", # fixme
+  "TD002", # todo
+  "TD003",
+  "PLR2004", # magic-value-comparison
+  "PTH", # flake8-use-pathlib: slower than os
+  "RET505", # superfluous-else-return
+  "T20", # print
+  # repo specific
+  "ANN",
 ]
 # unfixable = ["F401"]
 
