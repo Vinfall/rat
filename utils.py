@@ -1,14 +1,12 @@
 import asyncio
 import functools
 import logging
-import sys
 from collections.abc import Callable
 from types import FrameType
 from typing import Any
 
 import async_timeout
 
-from ..exception import exc_handlers
 from ..logging import get_logger
 
 try:

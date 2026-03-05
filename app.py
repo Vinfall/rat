@@ -2,7 +2,6 @@ import asyncio
 import re
 import textwrap
 from datetime import datetime
-from urllib.parse import quote_plus
 
 import aiotieba
 import uvicorn
@@ -111,7 +110,7 @@ async def _jinja2_filter_tcomments(coms):
     buf = " | "
     for com in coms:
         buf += wrap_text(f"{com.user.show_name}：{com.text}", width=60, join="\n | ")
-        buf += "\n \---\n | "
+        buf += "\n \\---\n | "
     return buf[:-4]
 
 
@@ -206,7 +205,7 @@ async def thread_view(tid):
         all_users = {}
         for floor in thread_info:
             for comment in floor.comments:
-                if comment.reply_to_id and not comment.reply_to_id in available_users:
+                if comment.reply_to_id and comment.reply_to_id not in available_users:
                     all_users[comment.reply_to_id] = ""
         all_users = list(all_users.keys())
 
@@ -265,7 +264,7 @@ async def forum_view():
         threads=threads,
         sort=sort,
         tp=(
-            (115 if threads.page.total_page > 115 else threads.page.total_page)
+            (min(threads.page.total_page, 115))
             if sort == 0
             else threads.page.total_page
         ),

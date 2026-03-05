@@ -121,7 +121,7 @@ class Asgiproxify:
 
         task = asyncio.create_task(reverse_proxy_task())
 
-        ev = await receive()
+        await receive()
         task.cancel()
 
     async def __call__(self, scope, receive, send):

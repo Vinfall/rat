@@ -1,4 +1,4 @@
-"""Extra APIs"""
+"""Extra APIs."""
 
 import re
 
