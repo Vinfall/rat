@@ -18,223 +18,222 @@
 }
 
 .post :nth-child(1) {
-	flex: 0 0 auto;
+    flex: 0 0 auto;
 }
 
 .post .tier {
-	text-align: center;
-	padding: .3rem;
-	font-size: .8rem;
-	background-color: var(--replies-color);
+    text-align: center;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    background-color: var(--replies-color);
 }
- 
 
 /* global styling */
 :root {
-	--bg-color: #eeeecc;
-	--fg-color: #ffffdd;
-	--replies-color: #f0f0d0;
-	--text-color: #663333;
-	--border-color: #66333388;
-	--primary-color: #0066cc;
-	--important-color: #ff0000;
+    --bg-color: #eeeecc;
+    --fg-color: #ffffdd;
+    --replies-color: #f0f0d0;
+    --text-color: #663333;
+    --border-color: #66333388;
+    --primary-color: #0066cc;
+    --important-color: #ff0000;
 }
 
 @media (prefers-color-scheme: dark) {
-	:root {
-		--bg-color: #000033;
-		--fg-color: #202044;
-		--replies-color: #16163a;
-		--text-color: #cccccc;
-		--border-color: #cccccc44;
-		--primary-color: #6699ff;
-		--important-color: #ff0000;
-	}
+    :root {
+        --bg-color: #000033;
+        --fg-color: #202044;
+        --replies-color: #16163a;
+        --text-color: #cccccc;
+        --border-color: #cccccc44;
+        --primary-color: #6699ff;
+        --important-color: #ff0000;
+    }
 }
 
 body {
-	max-width: 48rem;
-	margin: auto;
-	background-color: var(--bg-color);
-	color: var(--text-color);
-	font-family: sans-serif;
+    max-width: 48rem;
+    margin: auto;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: sans-serif;
 }
 
 footer {
-	display: flex;
-	gap: 2rem;
-	padding: 1rem;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
+    display: flex;
+    gap: 2rem;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 a[href] {
-	color: var(--primary-color);
-	text-decoration: none;
+    color: var(--primary-color);
+    text-decoration: none;
 }
 
 a[href]:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 img {
-	max-width: 100%;
+    max-width: 100%;
 }
 
 .paginator {
-	padding: 1rem;
-	gap: .3rem;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+    padding: 1rem;
+    gap: 0.3rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .paginator a {
-	flex: 0 0 auto;
-	height: 1rem;
-	line-height: 1rem;
-	padding: .5rem;
-	text-align: center;
-	background-color: var(--replies-color);
+    flex: 0 0 auto;
+    height: 1rem;
+    line-height: 1rem;
+    padding: 0.5rem;
+    text-align: center;
+    background-color: var(--replies-color);
 }
 
 header {
-	background-color: var(--fg-color);
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0 1rem;
-	padding: 1rem;
-	margin-bottom: 1rem;
-	align-items: center;
+    background-color: var(--fg-color);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
 }
 
 .list {
-	background-color: var(--fg-color);
-	margin-bottom: 1rem;
+    background-color: var(--fg-color);
+    margin-bottom: 1rem;
 }
 
 /* thread.html: nav bar */
 
 .thread-nav .title {
-	font-size: 1.2rem;
-	flex: 1 0 70%;
+    font-size: 1.2rem;
+    flex: 1 0 70%;
 }
 
 .thread-nav .from {
-	font-size: 1.2rem;
+    font-size: 1.2rem;
 }
 
 /* thread.html: user post */
 
 .post {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0 1rem;
-	border-bottom: 1px solid var(--border-color);
-	padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
 }
 
 .post .avatar {
-	width: 4rem;
-	height: 4rem;
+    width: 4rem;
+    height: 4rem;
 }
 
 .post > div {
-	flex: 1;
+    flex: 1;
 }
 
 .post .userinfo {
-	display: flex;
-	gap: .5rem;
-	align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
 }
 
 .tag {
-	border-radius: .4rem;
-	font-size: .8rem;
-	padding: .1rem .4rem;
-	margin-right: .2rem;
-	color: white;
+    border-radius: 0.4rem;
+    font-size: 0.8rem;
+    padding: 0.1rem 0.4rem;
+    margin-right: 0.2rem;
+    color: white;
 }
 
 .tag-blue {
-	background-color: var(--primary-color);
+    background-color: var(--primary-color);
 }
 
 .tag-red {
-	background-color: var(--important-color);
+    background-color: var(--important-color);
 }
 
 .post .permalink {
-	float: right;
+    float: right;
 }
 
 /* thread.html: replies to a user post */
 
 .post .replies {
-	background-color: var(--replies-color);
-	margin-top: 1rem;
+    background-color: var(--replies-color);
+    margin-top: 1rem;
 }
 
 .post .replies .post {
-	border-bottom: none;
+    border-bottom: none;
 }
 
 .post .replies .post .avatar {
-	width: 3rem;
-	height: 3rem;
+    width: 3rem;
+    height: 3rem;
 }
 
 /* bar.html: nav bar */
 
 .bar-nav img {
-	width: 5rem;
-	height: 5rem;
+    width: 5rem;
+    height: 5rem;
 }
 
 .bar-nav .title {
-	font-size: 1.5rem;
+    font-size: 1.5rem;
 }
 
 .bar-nav .stats small {
-	margin-right: .5rem;
+    margin-right: 0.5rem;
 }
 
 /* bar.html: thread list */
 
 .thread {
-	display: flex;
-	gap: 1rem;
-	padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
 }
 
 .thread .stats {
-	flex: 0 0 4rem;
-	text-align: center;
+    flex: 0 0 4rem;
+    text-align: center;
 }
 
 .thread .replies {
-	font-size: .8rem;
-	padding: .5rem .2rem;
-	background-color: var(--replies-color);
+    font-size: 0.8rem;
+    padding: 0.5rem 0.2rem;
+    background-color: var(--replies-color);
 }
 
 .thread .summary {
-	flex: 1 1 auto;
+    flex: 1 1 auto;
 }
 
 .thread .title {
-	font-size: 1.1rem;
-	margin-bottom: .5rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
 }
 
 .thread .participants {
-	font-size: .8rem;
-	flex: 0 0 6rem;
+    font-size: 0.8rem;
+    flex: 0 0 6rem;
 }
 
 .thread .participants a {
-	padding-left: .3rem;
-	color: var(--text-color);
+    padding-left: 0.3rem;
+    color: var(--text-color);
 }
