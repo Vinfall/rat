@@ -1,64 +1,65 @@
 <!DOCTYPE html>
+
 <head>
-  <title>{{ hp.user.show_name }}的个人资料 - RAT</title>
+    <title>{{ hp.user.show_name }}的个人资料 - RAT</title>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
 
-  <style>
-    .thread {
-	border: solid;
-	border-color: var(--bg-color);
-	border-width: 0;
-	border-top-width: 5px;
-	border-bottom-width: 5px;
-    }
-  </style>
+    <style>
+        .thread {
+            border: solid;
+            border-color: var(--bg-color);
+            border-width: 0;
+            border-top-width: 5px;
+            border-bottom-width: 5px;
+        }
+    </style>
 </head>
 
 <body>
-  <header class="bar-nav">
-    <img src="/proxy/avatar/{{ hp.user.portrait }}"></nav>
-<div>
-  <div class="title">{{ hp.user.show_name }} <small>{{ hp.user.user_name }}</small></div>
-  <div class="description">{{ hp.user.sign }}</div>
-  <div class="stats">
-    <small>关注数: {{ hp.user.follow_num|intsep }}</small>
-    <small>粉丝数: {{ hp.user.fan_num|intsep }}</small>
-    <small>发帖数: {{ hp.user.post_num|intsep }}</small>
-    <small>关注贴吧数: {{ hp.user.forum_num|intsep }}</small>
-  </div>
-</div>
-</header>
-<div class="list">
-  {% for t in hp.objs %}
-  <div class="thread">
-    <div class="summary">
-      <a href="/p/{{ t.tid }}">{{ t.text }} </a>
+    <header class="bar-nav">
+        <img src="https://himg.bdimg.com/sys/portrait/item/{{ hp.user.portrait }}"></nav>
+        <div>
+            <div class="title">{{ hp.user.show_name }} <small>{{ hp.user.user_name }}</small></div>
+            <div class="description">{{ hp.user.sign }}</div>
+            <div class="stats">
+                <small>关注数: {{ hp.user.follow_num|intsep }}</small>
+                <small>粉丝数: {{ hp.user.fan_num|intsep }}</small>
+                <small>发帖数: {{ hp.user.post_num|intsep }}</small>
+                <small>关注贴吧数: {{ hp.user.forum_num|intsep }}</small>
+            </div>
+        </div>
+    </header>
+    <div class="list">
+        {% for t in hp.objs %}
+        <div class="thread">
+            <div class="summary">
+                <a href="/p/{{ t.tid }}">{{ t.text }} </a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-  </div>
-  {% endfor %}
-</div>
-  <div class="paginator">
-    {% if pn > 1 %}
-    <a href="/home/main?id={{ hp.user.user_id }}&pn={{ 1 }}">首页</a>
-    {% endif %}
-    
-    {% for i in range(5) %}
-    {% set np = pn - 5 + i %}
-    {% if np > 0 %}
-    <a href="/home/main?id={{ hp.user.user_id }}&pn={{ np }}">{{ np }}</a>
-    {% endif %}
-    {% endfor %}
-    
-    <a>{{ pn }}</a>
-    <a href="/home/main?id={{ hp.user.user_id }}&pn={{ pn+1 }}">下一页</a>
-  </div>
-<footer>
-  <div><a href="/">RAT Ain't Tieba</a></div>
-  <div><a href="https://0xacab.org/johnxina/rat/-/blob/no-masters/LICENSE">自豪地以 AGPLv3 释出</a></div>
-  <div><a href="https://0xacab.org/johnxina/rat">源代码</a></div>
-</footer>
+    <div class="paginator">
+        {% if pn > 1 %}
+        <a href="/home/main?id={{ hp.user.user_id }}&pn={{ 1 }}">首页</a>
+        {% endif %}
+
+        {% for i in range(5) %}
+        {% set np = pn - 5 + i %}
+        {% if np > 0 %}
+        <a href="/home/main?id={{ hp.user.user_id }}&pn={{ np }}">{{ np }}</a>
+        {% endif %}
+        {% endfor %}
+
+        <a>{{ pn }}</a>
+        <a href="/home/main?id={{ hp.user.user_id }}&pn={{ pn+1 }}">下一页</a>
+    </div>
+    <footer>
+        <div><a href="/">RAT Ain't Tieba</a></div>
+        <div><a href="https://0xacab.org/johnxina/rat/-/blob/no-masters/LICENSE">自豪地以 AGPLv3 释出</a></div>
+        <div><a href="https://0xacab.org/johnxina/rat">源代码</a></div>
+    </footer>
 </body>

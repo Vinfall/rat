@@ -27,7 +27,7 @@
 ------------------------------------------------------------------------
 	</pre>
     <a href="/f?kw={{ info['name'] }}&sort={{ sort }}">首页</a> |
-	
+
 	{% for i in range(5) %}
     {% set np = threads.page.current_page - 5 + i %}
     {% if np > 0 %}
@@ -43,7 +43,7 @@
     <a href="/f?kw={{ info['name'] }}&pn={{ np }}&sort={{ sort }}">{{ np }}</a> |
     {% endif %}
     {% endfor %}
-	
+
     <a href="/f?kw={{ info['name'] }}&pn={{ tp }}&sort={{ sort }}">尾页</a>
 	<pre>
 ------------------------------------------------------------------------

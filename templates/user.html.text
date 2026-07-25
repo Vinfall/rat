@@ -16,17 +16,17 @@
 	<pre><a href="/p/{{ t.tid }}">{{ t.text|twrap(rws=True) }}</a></pre>
 	{% endfor %}
 	<pre>------------------------------------------------------------------------</pre>
-    <a href="/home/main?id={{ hp[0].user_id }}&pn={{ 1 }}">首页</a> | 
-    
+    <a href="/home/main?id={{ hp[0].user_id }}&pn={{ 1 }}">首页</a> |
+
     {% for i in range(5) %}
     {% set np = pn - 5 + i %}
     {% if np > 0 %}
-    <a href="/home/main?id={{ hp[0].user_id }}&pn={{ np }}">{{ np }}</a> | 
+    <a href="/home/main?id={{ hp[0].user_id }}&pn={{ np }}">{{ np }}</a> |
     {% endif %}
     {% endfor %}
-    
+
     <strong>{{ pn }}</strong> |
-	
+
     <a href="/home/main?id={{ hp[0].user_id }}&pn={{ pn+1 }}">下一页</a>
 	<pre>
 ------------------------------------------------------------------------

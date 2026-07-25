@@ -1,92 +1,92 @@
 <!DOCTYPE html>
+
 <head>
-  <title>{{ info['name'] }}吧 - RAT</title>
+    <title>{{ info['name'] }}吧 - RAT</title>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="/static/css/main.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
 </head>
 
 <body>
-  <header class="bar-nav">
-    <img src="/proxy/pic/{{ info['avatar'] }}"></nav>
-<div>
-  <div class="title">{{ info['name'] }}吧</div>
-  <div class="description">{{ info['desc'] }}</div>
-  <div class="stats">
-    <small>关注: {{ info['member']|intsep }}</small>
-    <small>主题: {{ info['topic']|intsep }}</small>
-    <small>帖子: {{ info['thread']|intsep }}</small>
-  </div>
-</div>
-</header>
-<div class="list">
-  <div class="vlist">
-    <div><a {% if sort == 0 %} class="current-sel" {% endif %}
-	 href="/f?kw={{ info['name'] }}&pn={{ threads.page.current_page }}&sort=0">时下热门</a></div>
-    <div><a {% if sort == 5 %} class="current-sel" {% endif %}
-	    href="/f?kw={{ info['name'] }}&sort=5">最新回复</a></div>
-    <div><a {% if sort == 1 %} class="current-sel" {% endif %}
-	    href="/f?kw={{ info['name'] }}&sort=1">最新发布</a></div>
-  </div>
-</div>
-<div class="list">
-  {% for t in threads %}
-  <div class="thread">
-    <div class="stats">
-      <div class="replies">{{ t.reply_num }}</div>
-      <small>{{ t.last_time|simpledate }}</small>
+    <header class="bar-nav">
+        <img src="https://imgsa.baidu.com/forum/pic/item/{{ info['avatar'] }}"></nav>
+        <div>
+            <div class="title">{{ info['name'] }}吧</div>
+            <div class="description">{{ info['desc'] }}</div>
+            <div class="stats">
+                <small>关注: {{ info['member']|intsep }}</small>
+                <small>主题: {{ info['topic']|intsep }}</small>
+                <small>帖子: {{ info['thread']|intsep }}</small>
+            </div>
+        </div>
+    </header>
+    <div class="list">
+        <div class="vlist">
+            <div><a {% if sort==0 %} class="current-sel" {% endif %}
+                    href="/f?kw={{ info['name'] }}&pn={{ threads.page.current_page }}&sort=0">时下热门</a></div>
+            <div><a {% if sort==5 %} class="current-sel" {% endif %} href="/f?kw={{ info['name'] }}&sort=5">最新回复</a>
+            </div>
+            <div><a {% if sort==1 %} class="current-sel" {% endif %} href="/f?kw={{ info['name'] }}&sort=1">最新发布</a>
+            </div>
+        </div>
     </div>
-    <div class="summary">
-      <div class="title">
-	{% if t.is_top or t.is_livepost
-	%}<span class="tag tag-blue">置顶</span>{%
-	endif %}{% if t.is_good
-	%}<span class="tag tag-red">精</span>{% endif
-	%}<a href="/p/{{ t.tid }}">{{ t.title if t.title else t.text|trim }} </a>
-      </div>
+    <div class="list">
+        {% for t in threads %}
+        <div class="thread">
+            <div class="stats">
+                <div class="replies">{{ t.reply_num }}</div>
+                <small>{{ t.last_time|simpledate }}</small>
+            </div>
+            <div class="summary">
+                <div class="title">
+                    {% if t.is_top or t.is_livepost
+                    %}<span class="tag tag-blue">置顶</span>{%
+                    endif %}{% if t.is_good
+                    %}<span class="tag tag-red">精</span>{% endif
+                    %}<a href="/p/{{ t.tid }}">{{ t.title if t.title else t.text|trim }} </a>
+                </div>
 
-      {% if t.title %}
-      <div>{{ t.text[(t.title|length):]|trim }}</div>
-      {% endif %}
+                {% if t.title %}
+                <div>{{ t.text[(t.title|length):]|trim }}</div>
+                {% endif %}
+            </div>
+            <div class="participants">
+                <div>🧑<a href="">{{ t.user.show_name }}</a></div>
+                <!-- <div>💬<a href=""> API UNAVAILABLE </a></div> -->
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="paginator">
+            {% if threads.page.current_page > 1 %}
+            <a href="/f?kw={{ info['name'] }}&sort={{ sort }}">首页</a>
+            {% endif %}
+
+            {% for i in range(5) %}
+            {% set np = threads.page.current_page - 5 + i %}
+            {% if np > 0 %}
+            <a href="/f?kw={{ info['name'] }}&pn={{ np }}&sort={{ sort }}">{{ np }}</a>
+            {% endif %}
+            {% endfor %}
+
+            <a>{{ threads.page.current_page }}</a>
+
+            {% for i in range(5) %}
+            {% set np = threads.page.current_page + 1 + i %}
+            {% if np <= tp %} <a href="/f?kw={{ info['name'] }}&pn={{ np }}&sort={{ sort }}">{{ np }}</a>
+                {% endif %}
+                {% endfor %}
+
+                {% if threads.page.current_page < tp %} <a href="/f?kw={{ info['name'] }}&pn={{ tp }}&sort={{ sort }}">
+                    尾页</a>
+                    {% endif %}
+        </div>
     </div>
-    <div class="participants">
-      <div>🧑<a href="">{{ t.user.show_name }}</a></div>
-      <!-- <div>💬<a href=""> API UNAVAILABLE </a></div> -->
-    </div>
-  </div>
-  {% endfor %}
-
-  <div class="paginator">
-    {% if threads.page.current_page > 1 %}
-    <a href="/f?kw={{ info['name'] }}&sort={{ sort }}">首页</a>
-    {% endif %}
-
-    {% for i in range(5) %}
-    {% set np = threads.page.current_page - 5 + i %}
-    {% if np > 0 %}
-    <a href="/f?kw={{ info['name'] }}&pn={{ np }}&sort={{ sort }}">{{ np }}</a>
-    {% endif %}
-    {% endfor %}
-
-    <a>{{ threads.page.current_page }}</a>
-    
-    {% for i in range(5) %}
-    {% set np = threads.page.current_page + 1 + i %}
-    {% if np <= tp %}
-    <a href="/f?kw={{ info['name'] }}&pn={{ np }}&sort={{ sort }}">{{ np }}</a>
-    {% endif %}
-    {% endfor %}
-
-    {% if threads.page.current_page < tp %}
-    <a href="/f?kw={{ info['name'] }}&pn={{ tp }}&sort={{ sort }}">尾页</a>
-    {% endif %}
-  </div>
-</div>
-<footer>
-  <div><a href="/">RAT Ain't Tieba</a></div>
-  <div><a href="https://0xacab.org/johnxina/rat/-/blob/no-masters/LICENSE">自豪地以 AGPLv3 释出</a></div>
-  <div><a href="https://0xacab.org/johnxina/rat">源代码</a></div>
-</footer>
+    <footer>
+        <div><a href="/">RAT Ain't Tieba</a></div>
+        <div><a href="https://0xacab.org/johnxina/rat/-/blob/no-masters/LICENSE">自豪地以 AGPLv3 释出</a></div>
+        <div><a href="https://0xacab.org/johnxina/rat">源代码</a></div>
+    </footer>
 </body>

@@ -136,15 +136,9 @@ async def _jinja2_filter_translate(frags, reply_id=0):  # noqa: C901
             for subfrag in subfrags:
                 htmlfmt += str(escape(subfrag)) + "<br>"
         elif isinstance(frag, FragImage_p):
-            # htmlfmt += \
-            #     f'<a target="_blank" href="/proxy/pic/{ extract_image_name(frag.origin_src) }">' \
-            #     f'<img width="{ frag.show_width}" height="{ frag.show_height }" '\
-            #     f'src="/proxy/pic/{ extract_image_name(frag.src) }"></a>'
-
-            # Leah Rowe's lightbox implementation
             htmlfmt += (
-                f'<img tabindex=1 width="{frag.show_width}" height="{frag.show_height}" src="/proxy/pic/{extract_image_name(frag.src)}" />'
-                f'<span class="f"><img src="/proxy/pic/{extract_image_name(frag.origin_src)}" /></span>'
+                f'<img tabindex=1 width="{frag.show_width}" height="{frag.show_height}" src="{frag.src}" />'
+                f'<span class="f"><img src="{frag.origin_src}" /></span>'
             )
         elif isinstance(frag, FragEmoji_p):
             htmlfmt = append_with_leading_clean(

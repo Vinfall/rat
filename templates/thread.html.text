@@ -31,7 +31,7 @@
     {% endfor %}
 
     <strong>{{ info.page.current_page }}</strong> |
-    
+
     {% for i in range(5) %}
     {% set np = info.page.current_page + 1 + i %}
     {% if np <= info.page.total_page %}
