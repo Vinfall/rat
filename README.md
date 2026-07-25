@@ -1,7 +1,6 @@
 # Rat Aint Tieba
 
-RAT 是一款尊重用户自由的百度贴吧前端。RAT 项目内所有文件均以 AGPLv3 分发，具体内容
-见 LICENSE。
+RAT 是一款尊重用户自由的百度贴吧前端。
 
 ## 安装
 
@@ -18,7 +17,7 @@ mise run install
 
 ## 运行
 
-调试运行（已知在生产环境有内存溢出）：
+调试运行：
 
 ```sh
 mise run debug
@@ -34,5 +33,10 @@ mise run serve
 
 ## 配置
 
-其中的 `should_fetch_comments` 用于控制是否获取楼中楼。如果浏览性能不佳可以考虑
-关闭楼中楼获取。
+见 [shared.py](shared.py)。
+`should_fetch_comments` 用于控制是否获取楼中楼。
+如果浏览性能不佳可以考虑关闭楼中楼获取。
+
+## 许可
+
+RAT 项目内所有文件均以 AGPLv3 分发，具体内容见 [LICENSE](LICENSE)。
