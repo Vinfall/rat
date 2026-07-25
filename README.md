@@ -3,9 +3,16 @@
 RAT 是一款尊重用户自由的百度贴吧前端。RAT 项目内所有文件均以 AGPLv3 分发，具体内容
 见 LICENSE。
 
-## 部署
+## 安装
 
 ```sh
+# 参考文档安装 mise
+# https://mise.jdx.dev/getting-started.html#installing-mise-cli
+# 信任 mise 配置
+mise trust
+# 安装命令行依赖
+mise install
+# 安装 Python 依赖
 mise run install
 ```
 
