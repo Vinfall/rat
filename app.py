@@ -5,12 +5,11 @@ from datetime import datetime
 
 import aiotieba
 import uvicorn
-from aioflask import escape, render_template, request
 from aiotieba.api._classdef.contents import *
 from aiotieba.api.get_posts._classdef import *
+from quart import escape, render_template, request
 
 from extra import *
-from proxify import AsgiproxifyHandler
 from shared import *
 
 ######################################################################
@@ -79,7 +78,7 @@ def _jinja2_filter_simpledate(ts):
     now = datetime.now()
 
     if t.date() == now.date():
-        return t.strftime("%H:%m")
+        return t.strftime("%H:%M")
     elif t.year == now.year:
         return t.strftime("%m-%d")
     else:
@@ -88,7 +87,7 @@ def _jinja2_filter_simpledate(ts):
 
 # Convert a timestamp to a humand readable date format.
 @app.template_filter("date")
-def _jinja2_filter_datetime(ts, fmt="%Y年%m月%d日 %H点%m分"):
+def _jinja2_filter_datetime(ts, fmt="%Y年%m月%d日 %H点%M分"):
     return datetime.fromtimestamp(ts).strftime(fmt)
 
 
@@ -316,18 +315,17 @@ async def general_error_view(e):
 
 ######################################################################
 
+# @proxified.register("/proxy/avatar/")
+# class AvatarProxyHandler(AsgiproxifyHandler):
+#     def make_request_url(self):
+#         return "http://himg.baidu.com/sys/portraith/item/" + self.scope["path"][14:]
 
-@proxified.register("/proxy/avatar/")
-class AvatarProxyHandler(AsgiproxifyHandler):
-    def make_request_url(self):
-        return "http://himg.baidu.com/sys/portraith/item/" + self.scope["path"][14:]
 
-
-@proxified.register("/proxy/pic/")
-class PictureProxyHandler(AsgiproxifyHandler):
-    def make_request_url(self):
-        return "http://imgsa.baidu.com/forum/pic/item/" + self.scope["path"][11:]
+# @proxified.register("/proxy/pic/")
+# class PictureProxyHandler(AsgiproxifyHandler):
+#     def make_request_url(self):
+#         return "http://imgsa.baidu.com/forum/pic/item/" + self.scope["path"][11:]
 
 
 if __name__ == "__main__":
-    uvicorn.run(proxified, host=host, port=port)
+    uvicorn.run("app:app", host=host, port=port, reload=True)

@@ -25,5 +25,5 @@ description = "run prod server"
 run = """
 #!/usr/bin/env bash
 source .venv/bin/activate
-gunicorn app:proxified --max-requests 50 --workers 2 --worker-class uvicorn.workers.UvicornWorker
+gunicorn app:app --max-requests 50 --workers 2 --worker-class uvicorn.workers.UvicornWorker
 """

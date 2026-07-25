@@ -1,9 +1,7 @@
 from functools import wraps
 
-from aioflask import Flask
 from flask_caching import Cache
-
-from proxify import Asgiproxify
+from quart import Quart
 
 
 def awaitify(sync_func):
@@ -16,8 +14,7 @@ def awaitify(sync_func):
     return async_func
 
 
-app = Flask(__name__)
-proxified = Asgiproxify(app)
+app = Quart(__name__)
 
 ######################################################################
 
@@ -33,7 +30,6 @@ app.config["TESTING"] = False
 
 app.config["CACHE_DEFAULT_TIMEOUT"] = 60
 
-# app.config['CACHE_TYPE'] = 'RedisCache'
-app.config["CACHE_TYPE"] = "SimpleCache"
+app.config["CACHE_TYPE"] = "SimpleCache"  # "RedisCache"
 
 cache = Cache(app)

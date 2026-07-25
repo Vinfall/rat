@@ -25,4 +25,4 @@ EXPOSE 8886
 COPY . .
 
 # Run the Python script with Uvicorn, binding to all available network interfaces
-CMD ["gunicorn", "app:proxified", "--max-requests", "50", "--worker-class", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8886"]
+CMD ["gunicorn", "app:app", "--max-requests", "50", "--worker-class", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8886"]
