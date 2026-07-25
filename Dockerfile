@@ -1,25 +1,18 @@
 # Use the official Python image as the base image
-FROM python:3.14-slim
-
-
-# Install the patch utility
-RUN apt-get update && apt-get install -y patch
-
+# https://hub.docker.com/_/python
+FROM python:3.14-slim-trixie
 
 # Set the working directory to /app
 WORKDIR /app
 
-
 # Copy the local requirements.txt file to the container
 COPY requirements.txt .
-
 
 # Install the Python dependencies
 RUN pip install -r requirements.txt
 
 # Expose port 8886
 EXPOSE 8886
-
 
 # Copy the local code to the container
 COPY . .
