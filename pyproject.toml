@@ -1,6 +1,6 @@
 [project]
 name = "rat"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 classifiers = ["Private :: Do Not Upload"]
 dynamic = ["version"]
 
