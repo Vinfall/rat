@@ -27,6 +27,8 @@ ignore = [
   "T20", # print
   # repo specific
   "ANN",
+  "RUF001",
+  "F405" # for now
 ]
 # unfixable = ["F401"]
 

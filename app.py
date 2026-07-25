@@ -2,6 +2,7 @@ import asyncio
 import re
 import textwrap
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import aiotieba
 import uvicorn
@@ -12,6 +13,8 @@ from quart import escape, render_template, request
 from extra import *
 from filters import init_filters
 from shared import *
+
+TZ = ZoneInfo("Asia/Shanghai")
 
 ######################################################################
 
@@ -74,11 +77,11 @@ def wrap_text(i, width=70, join="\n", rws=False):
 ######################################################################
 
 
-# Convert a timestamp to its simpliest readable date format.
+# Convert a timestamp to its simplest readable date format.
 @app.template_filter("simpledate")
 def _jinja2_filter_simpledate(ts):
-    t = datetime.fromtimestamp(ts)
-    now = datetime.now()
+    t = datetime.fromtimestamp(ts, tz=TZ)
+    now = datetime.now(tz=TZ)
 
     if t.date() == now.date():
         return t.strftime("%H:%M")
@@ -91,7 +94,7 @@ def _jinja2_filter_simpledate(ts):
 # Convert a timestamp to a humand readable date format.
 @app.template_filter("date")
 def _jinja2_filter_datetime(ts, fmt="%Y年%m月%d日 %H点%M分"):
-    return datetime.fromtimestamp(ts).strftime(fmt)
+    return datetime.fromtimestamp(ts, tz=TZ).strftime(fmt)
 
 
 # Convert a integer to the one with separator like 1,000,000.
@@ -118,7 +121,7 @@ async def _jinja2_filter_tcomments(coms):
 
 # Format fragments to its equiviant HTML.
 @app.template_filter("translate")
-async def _jinja2_filter_translate(frags, reply_id=0):
+async def _jinja2_filter_translate(frags, reply_id=0):  # noqa: C901
     htmlfmt = ""
 
     if reply_id:

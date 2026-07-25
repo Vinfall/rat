@@ -19,4 +19,4 @@ app.config["CACHE_DEFAULT_TIMEOUT"] = 60
 
 app.config["CACHE_TYPE"] = "SimpleCache"  # "RedisCache"
 
-cache = Cache(app)
+cache = Cache(app)  # ty:ignore[invalid-argument-type]
