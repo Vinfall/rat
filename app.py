@@ -10,9 +10,12 @@ from aiotieba.api.get_posts._classdef import *
 from quart import escape, render_template, request
 
 from extra import *
+from filters import init_filters
 from shared import *
 
 ######################################################################
+
+init_filters(app)
 
 
 # Clean a leading part and append the text.
@@ -169,7 +172,7 @@ async def _jinja2_filter_translate(frags, reply_id=0):
 
 
 @app.template_filter("twrap")
-async def _jinja2_filter_translate(text, width=70, join="\n", rws=False):
+async def _jinja2_filter_twrap(text, width=70, join="\n", rws=False):
     return wrap_text(text, width, join, rws)
 
 
@@ -314,17 +317,6 @@ async def general_error_view(e):
 
 
 ######################################################################
-
-# @proxified.register("/proxy/avatar/")
-# class AvatarProxyHandler(AsgiproxifyHandler):
-#     def make_request_url(self):
-#         return "http://himg.baidu.com/sys/portraith/item/" + self.scope["path"][14:]
-
-
-# @proxified.register("/proxy/pic/")
-# class PictureProxyHandler(AsgiproxifyHandler):
-#     def make_request_url(self):
-#         return "http://imgsa.baidu.com/forum/pic/item/" + self.scope["path"][11:]
 
 
 if __name__ == "__main__":

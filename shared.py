@@ -1,18 +1,5 @@
-from functools import wraps
-
 from flask_caching import Cache
 from quart import Quart
-
-
-def awaitify(sync_func):
-    """Wrap a synchronous callable to allow ``await``'ing it."""
-
-    @wraps(sync_func)
-    async def async_func(*args, **kwargs):
-        return sync_func(*args, **kwargs)
-
-    return async_func
-
 
 app = Quart(__name__)
 
