@@ -11,11 +11,11 @@ COPY requirements.txt .
 # Install the Python dependencies
 RUN pip install -r requirements.txt
 
-# Expose port 8886
-EXPOSE 8886
+# Expose port 8000
+EXPOSE 8000
 
 # Copy the local code to the container
 COPY . .
 
 # Run the Python script with Uvicorn, binding to all available network interfaces
-CMD ["gunicorn", "app:app", "--max-requests", "50", "--worker-class", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8886"]
+CMD ["gunicorn", "app:app", "--max-requests", "50", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
