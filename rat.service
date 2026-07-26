@@ -1,0 +1,29 @@
+[Unit]
+Description=Rat Aint Tieba.
+Documentation=https://0xacab.org/johnxina/rat
+After=network.target NetworkManager.service systemd-networkd.service
+
+[Service]
+Type=simple
+Restart=on-failure
+######## 此处需要修改为实际用户名和路径 ########
+User=example
+Group=example
+WorkingDirectory=/home/example/projects/rat
+###########################################
+ExecStart=mise run serve
+
+# Sandboxing
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=yes
+ProtectControlGroups=yes
+ProtectHome=read-only
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectSystem=full
+RestrictSUIDSGID=true
+RestrictNamespaces=uts ipc pid user cgroup
+
+[Install]
+WantedBy=multi-user.target

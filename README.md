@@ -4,7 +4,7 @@ RAT 是一款尊重用户自由的百度贴吧前端。
 
 本仓库 fork 自 [rat][rat]，主要修改：
 
-1. 使用 mise 简化安装、运行、卸载流程
+1. 使用 mise 简化安装、运行、卸载流程，并提供 SystemD 服务
 2. 更新依赖以兼容 Python 3.12-3.14，并将 aioflask + Flask 替换为 Quart
 3. 删除失效的图片代理功能，直接从百度获取图片[^1]，提高了可用性，但隐私层面有所减弱
 
@@ -24,8 +24,9 @@ mise run install
 ## 配置
 
 见 [shared.py](shared.py)。
-`should_fetch_comments` 用于控制是否获取楼中楼。
-如果浏览性能不佳可以考虑关闭楼中楼获取。
+`should_fetch_comments` 用于控制楼中楼获取，如果浏览性能不佳可以关闭。
+
+SystemD 示例见 [rat.service](rat.service)，需要修改为实际用户名和路径。
 
 ## 运行
 
@@ -42,6 +43,19 @@ mise run serve
 ```
 
 默认参数下，你应将反向代理指向 `127.0.0.1:8000`。
+
+如果出于某些原因（e.g. 纯内网部署）希望绑定到 `0.0.0.0:8000`，可以修改 [.mise.toml](.mise.toml) 的 serve task 运行参数：
+
+```diff
+[tasks.serve]
+description = "run prod server"
+run = """
+#!/usr/bin/env bash
+source .venv/bin/activate
+-gunicorn app:app --max-requests 50 --workers 2 --worker-class uvicorn.workers.UvicornWorker
++gunicorn app:app --max-requests 50 --workers 2 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+"""
+```
 
 ## 卸载
 
