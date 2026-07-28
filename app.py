@@ -151,11 +151,18 @@ async def _jinja2_filter_translate(frags, reply_id=0):  # noqa: C901
                 htmlfmt += "<br>"
         elif isinstance(frag, FragLink):
             markup = "<a "
-            url = frag.raw_url
+            url = str(frag.raw_url)
+
+            # remove outlink redirect
+            if "tieba.baidu.com/mo/q/checkurl" in url:
+                match = re.search(r"[?&]url=([^&]+)", url)
+                if match:
+                    url = match.group(1)
             if frag.is_external:
                 markup += 'style="text-color: #ff0000;" '
             else:
-                url = frag.raw_url.path
+                url = frag.raw_url.path if hasattr(frag.raw_url, "path") else url
+
             markup += f'href="{url}">{frag.title}</a>'
             htmlfmt = append_with_leading_clean(htmlfmt, markup)
         elif isinstance(frag, FragAt):
