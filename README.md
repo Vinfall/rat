@@ -6,7 +6,7 @@ RAT 是一款尊重用户自由的百度贴吧前端。
 
 1. 使用 mise 简化安装、运行、卸载流程，并提供 SystemD 服务
 2. 更新依赖以兼容 Python 3.12-3.14，并将 aioflask + Flask 替换为 Quart
-3. 删除失效的图片代理功能，直接从百度获取图片[^1]，提高了可用性，但隐私层面有所减弱
+3. 删除失效的图片代理功能，直接从百度获取图片[^1]
 4. 移除百度外链跳转，直接展示原始链接
 
 ## 安装
@@ -25,7 +25,6 @@ mise run install
 ## 配置
 
 见 [shared.py](shared.py)。
-`should_fetch_comments` 用于控制楼中楼获取，如果浏览性能不佳可以关闭。
 
 SystemD 示例见 [rat.service](rat.service)，需要修改为实际用户名和路径。
 
@@ -77,6 +76,6 @@ rm -rf rat
 
 RAT 项目内所有文件均以 AGPLv3 分发，具体内容见 [LICENSE](LICENSE)。
 
-[^1]: Firefox 用户如果仍然无法访问图片，可能需要关闭 Enhanced Tracking Protection。
+[^1]: Firefox 用户如果仍然无法访问图片，可能需要关闭 Enhanced Tracking Protection。如果希望减少请求，可以在 [share.py](shared.py) 禁用用户头像和等级。
 
 [rat]: https://0xacab.org/johnxina/rat

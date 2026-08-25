@@ -25,6 +25,7 @@
     <div class="list">
         {% for p in info %}
         <div class="post" id="{{ p.floor }}">
+            {% if show_avatar %}
             <div>
                 <img class="avatar" src="https://himg.bdimg.com/sys/portrait/item/{{ p.user.portrait }}">
                 {% if p.user.is_bawu %}
@@ -32,6 +33,7 @@
                 {% endif %}
                 <div class="tier">level {{ p.user.level }}</div>
             </div>
+            {% endif %}
             <div>
                 <div class="userinfo">
                     <a href="/home/main?id={{ p.user.user_id }}">{{ p.user.show_name }}</a>
@@ -48,7 +50,9 @@
                 <div class="replies">
                     {% for comment in p.comments %}
                     <div class="post">
+                        {% if show_avatar %}
                         <img class="avatar" src="https://himg.bdimg.com/sys/portrait/item/{{ comment.user.portrait }}">
+                        {% endif %}
                         <div>
                             <div class="userinfo">
                                 <a href="/home/main?id={{ comment.user.user_id }}">{{ comment.user.show_name }}</a>

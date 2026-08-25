@@ -21,6 +21,11 @@ TZ = ZoneInfo("Asia/Shanghai")
 init_filters(app)
 
 
+@app.context_processor
+def inject_options():
+    return {"show_avatar": app.config.get("SHOW_AVATAR", True)}
+
+
 # Clean a leading part and append the text.
 def append_with_leading_clean(orig, content):
     if orig.endswith("<br>"):
