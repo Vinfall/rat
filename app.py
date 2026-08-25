@@ -94,7 +94,7 @@ def _jinja2_filter_simpledate(ts):
 
 # Convert a timestamp to a human readable date format.
 @app.template_filter("date")
-def _jinja2_filter_datetime(ts, fmt="%Y年%m月%d日 %H点%M分"):
+def _jinja2_filter_datetime(ts, fmt="%Y-%m-%d %H:%M"):
     return datetime.fromtimestamp(ts, tz=TZ).strftime(fmt)
 
 
