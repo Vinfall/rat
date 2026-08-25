@@ -17,10 +17,6 @@
     color: inherit !important;
 }
 
-.post :nth-child(1) {
-    flex: 0 0 auto;
-}
-
 .post .tier {
     text-align: center;
     padding: 0.3rem;
@@ -140,7 +136,15 @@ header {
 }
 
 .post > div {
-    flex: 1;
+    flex: 1 1 0%;
+    min-width: 0;
+}
+
+.post:not(.no-avatar) > div:first-child {
+    flex: 0 0 auto;
+}
+.post:not(.no-avatar) > .avatar {
+    flex: 0 0 auto;
 }
 
 .post .userinfo {
@@ -167,6 +171,17 @@ header {
 
 .post .permalink {
     float: right;
+}
+
+/* thread.html: no avatar */
+.post.no-avatar {
+    display: block;
+}
+.post.no-avatar > div:first-child {
+    margin-bottom: 0.5rem;
+}
+.post.no-avatar > div:last-child {
+    width: 100%;
 }
 
 /* thread.html: replies to a user post */

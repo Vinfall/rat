@@ -24,7 +24,7 @@
     </div>
     <div class="list">
         {% for p in info %}
-        <div class="post" id="{{ p.floor }}">
+        <div class="post{% if not show_avatar %} no-avatar{% endif %}" id="{{ p.floor }}">
             {% if show_avatar %}
             <div>
                 <img class="avatar" src="https://himg.bdimg.com/sys/portrait/item/{{ p.user.portrait }}">
@@ -49,7 +49,7 @@
                 {% if p.comments %}
                 <div class="replies">
                     {% for comment in p.comments %}
-                    <div class="post">
+                    <div class="post{% if not show_avatar %} no-avatar{% endif %}">
                         {% if show_avatar %}
                         <img class="avatar" src="https://himg.bdimg.com/sys/portrait/item/{{ comment.user.portrait }}">
                         {% endif %}
