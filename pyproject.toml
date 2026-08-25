@@ -29,6 +29,7 @@ ignore = [
   # repo specific
   "ANN",
   "RUF001",
+  "RUF003", # zh comment
   "F405" # for now
 ]
 # unfixable = ["F401"]
