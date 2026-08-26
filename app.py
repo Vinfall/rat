@@ -149,7 +149,7 @@ async def _jinja2_filter_translate(frags, reply_id=0):  # noqa: C901
         elif isinstance(frag, FragEmoji_p):
             htmlfmt = append_with_leading_clean(
                 htmlfmt,
-                f'<img class="emoticons" alt="[{frag.desc}]"'
+                f'<img class="emoticons" alt="[{frag.desc}]" '
                 f'src="/static/emoticons/{normalize_utf8(frag.desc)}.png">',
             )
             if i + 1 < len(frags) and isinstance(frags[i + 1], FragImage_p):
