@@ -1,7 +1,6 @@
 import asyncio
 import re
 import textwrap
-from datetime import datetime
 from zoneinfo import ZoneInfo
 
 import aiotieba
@@ -81,38 +80,6 @@ def wrap_text(i, width=70, join="\n", rws=False):
 
 
 ######################################################################
-
-
-# Convert a timestamp to its simplest readable date format.
-@app.template_filter("simpledate")
-def _jinja2_filter_simpledate(ts):
-    t = datetime.fromtimestamp(ts, tz=TZ)
-    now = datetime.now(tz=TZ)
-
-    if t.date() == now.date():
-        return t.strftime("%H:%M")
-    elif t.year == now.year:
-        return t.strftime("%m-%d")
-    else:
-        return t.strftime("%Y-%m-%d")
-
-
-# Convert a timestamp to a human readable date format.
-@app.template_filter("date")
-def _jinja2_filter_datetime(ts, fmt="%Y-%m-%d %H:%M"):
-    return datetime.fromtimestamp(ts, tz=TZ).strftime(fmt)
-
-
-# Convert a integer to the one with separator like 1,000,000.
-@app.template_filter("intsep")
-def _jinja2_filter_intsep(i):
-    return f"{int(i):,}"
-
-
-# Reduce the text to a shorter form.
-@app.template_filter("trim")
-def _jinja2_filter_trim(text):
-    return text[:78] + "……" if len(text) > 78 else text
 
 
 # Format comments to its equiviant text HTML.
