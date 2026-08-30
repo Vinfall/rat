@@ -38,3 +38,15 @@ def init_filters(app):
     @app.template_filter("trim")
     def _jinja2_filter_trim(text):
         return text[:78] + "……" if len(text) > 78 else text
+
+    # Sort comments in chronical order
+    # https://aiotieba.cc/ref/classdef/comments/
+    @app.template_filter("timeline")
+    def _jinja2_filter_timeline(comments):
+        return sorted(
+            comments,
+            key=lambda comment: (
+                comment.create_time,
+                comment.pid,
+            ),
+        )

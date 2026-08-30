@@ -18,7 +18,7 @@
 <a href="#{{ p.floor }}">#{{ p.floor }}</a> | <a href="/home/main?id={{ p.user.user_id }}">{{ p.user.show_name }}</a>：
 
 {{ p.text|twrap(rws=True) }}
-{% if p.comments %}{{ '\n' + p.comments|tcomments }}{% endif %}</pre>
+{% if p.comments %}{{ '\n' + p.comments|timeline|tcomments }}{% endif %}</pre>
 	{% endfor %}
 	<pre>------------------------------------------------------------------------</pre>
     <a href="/p/{{ info.thread.tid }}?ao={{ao}}">首页</a> |

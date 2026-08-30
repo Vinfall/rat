@@ -49,7 +49,7 @@
                 <small class="permalink"><a href="#{{ p.floor }}">{{ p.floor }}</a></small>
                 {% if p.comments %}
                 <div class="replies">
-                    {% for comment in p.comments %}
+                    {% for comment in p.comments|timeline %}
                     <div class="post{% if not show_avatar %} no-avatar{% endif %}">
                         {% if show_avatar %}
                         <img class="avatar" src="https://himg.bdimg.com/sys/portrait/item/{{ comment.user.portrait }}">
