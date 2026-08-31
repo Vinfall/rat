@@ -1,15 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
+    <head>
+        <title>首页 - RAT</title>
 
-<head>
-    <title>首页 - RAT</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/static/css/main.css" rel="stylesheet">
 
-    <link href="/static/css/main.css" rel="stylesheet">
-
-    <style>
+        <style>
         .list {
             margin: 5% !important;
             padding: 1% !important;
@@ -22,40 +21,43 @@
             font-size: large;
         }
 
-        form>label {
+        form > label {
             flex-shrink: 0;
             text-align: right;
         }
 
-        form>input {
+        form > input {
             flex-grow: 1;
             text-align: center;
         }
-    </style>
-</head>
+        </style>
+    </head>
 
-<body>
-    <div class="list" style="text-align: center;">
-        <div>
-            <img title="吱？" src="/static/art/rat.svg" onclick="this.src = '/static/art/alien-rat.svg'"
-                style="width: 50%" />
-            <!-- <a title="吱？" style="text-decoration: none;">
-	&#x1F400;
-      </a> -->
+    <body>
+        <div class="list" style="text-align: center;">
+            <div>
+                <!-- biome-ignore lint/a11y/useKeyWithClickEvents: intended -->
+                <img
+                    title="吱？"
+                    src="/static/art/rat.svg"
+                    alt="rat"
+                    onclick="this.src = '/static/art/alien-rat.svg'"
+                    style="width: 50%"
+                >
+                <!--<a title="吱？" style="text-decoration: none;"> &#x1F400; </a>-->
+            </div>
+            <h1>RAT Ain't Tieba</h1>
+            <h2><a href="https://writefreesoftware.org/zh-cn/">尊重用户自由的</a>百度贴吧前端</h2>
         </div>
-        <h1>RAT Ain't Tieba</h1>
-        <h2>一款<a href="https://writefreesoftware.org/">尊重用户自由的</a>百度贴吧前端</h2>
-    </div>
-    <div class="list">
-        <form action="/f" method="get">
-            <label for="kw">贴吧传送门：</label>
-            <input type="text" name="kw" required />
-        </form>
-    </div>
-    <footer>
-        <div><a href="/">RAT Ain't Tieba</a></div>
-        <div><a href="https://0xacab.org/johnxina/rat">源代码</a></div>
-    </footer>
-</body>
-
+        <div class="list">
+            <form action="/f" method="get">
+                <label for="kw">贴吧传送门：</label>
+                <input type="text" name="kw" required>
+            </form>
+        </div>
+        <footer>
+            <div><a href="/">RAT Ain't Tieba</a></div>
+            <div><a href="https://0xacab.org/johnxina/rat">源代码</a></div>
+        </footer>
+    </body>
 </html>
