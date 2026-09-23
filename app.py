@@ -213,31 +213,22 @@ async def forum_view():
 
     async with aiotieba.Client() as tieba:
         forum_info, threads = await asyncio.gather(
-            tieba.get_forum_detail(fname), tieba.get_threads(fname, pn=pn, sort=sort)
+            tieba.get_forum(fname),
+            tieba.get_threads(fname, pn=pn, sort=sort),
         )
         if threads.err:
             return await runtime_error_view(threads.err)
         elif forum_info.err:
             return await runtime_error_view(forum_info.err)
 
-        if hasattr(forum_info, "slogan"):
-            forum_info = {
-                "avatar": extract_image_name(forum_info.origin_avatar),
-                "topic": forum_info.post_num,
-                "thread": forum_info.post_num,
-                "member": forum_info.member_num,
-                "desc": forum_info.slogan,
-                "name": forum_info.fname,
-            }
-        else:
-            forum_info = {
-                "avatar": "a6efce1b9d16fdfa6291460ab98f8c5495ee7b51.jpg",
-                "topic": forum_info.post_num,
-                "thread": forum_info.post_num,
-                "member": forum_info.member_num,
-                "desc": "贴吧描述暂不可用",
-                "name": forum_info.fname,
-            }
+        forum_info = {
+            "avatar": forum_info.small_avatar,
+            "topic": forum_info.thread_num,
+            "thread": forum_info.post_num,
+            "member": forum_info.member_num,
+            "desc": forum_info.slogan,
+            "name": forum_info.fname,
+        }
 
         if threads.page.current_page > threads.page.total_page or pn < 1:
             return await render_template_c(
