@@ -5,7 +5,7 @@ RAT 是一款尊重用户自由的百度贴吧前端。
 本仓库 fork 自 [johnxina/rat][rat]，主要修改：
 
 1. 使用 mise 简化安装、运行、卸载流程，并提供 SystemD 服务
-2. 更新依赖以兼容 Python 3.12-3.14，并将 aioflask + Flask 替换为 Quart
+2. 更新依赖以兼容 Python 3.13-3.14，并将 aioflask + Flask 替换为 Quart
 3. 删除失效的图片代理功能，直接从百度获取图片[^1]
 4. 修复楼中楼回复排序
 5. 移除百度外链跳转，直接展示原始链接
