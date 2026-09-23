@@ -1,6 +1,7 @@
 import asyncio
 import re
 import textwrap
+from urllib.parse import parse_qs, urlsplit
 from zoneinfo import ZoneInfo
 
 import aiotieba
@@ -133,7 +134,14 @@ async def _jinja2_filter_translate(frags, reply_id=0):  # noqa: C901
             if frag.is_external:
                 markup += 'style="text-color: #ff0000;" '
             else:
-                url = frag.raw_url.path if hasattr(frag.raw_url, "path") else url
+                parsed = urlsplit(url)
+                kz = parse_qs(parsed.query).get("kz", [None])[0]
+                # /f?kz=123456789 -> /p/123456789
+                if parsed.path.rstrip("/") == "/f" and kz and kz.isdigit():
+                    url = f"/p/{kz}"
+                # trim all parameters
+                else:
+                    url = parsed.path or "/"
 
             markup += f'href="{url}">{frag.title}</a>'
             htmlfmt = append_with_leading_clean(htmlfmt, markup)
