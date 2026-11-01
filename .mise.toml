@@ -1,9 +1,6 @@
 [tools]
 uv = "latest"
 
-[settings.pipx]
-uvx = true
-
 [tasks.install]
 description = "setup venv with uv"
 run = """
